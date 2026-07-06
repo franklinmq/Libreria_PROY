@@ -22,6 +22,14 @@ try {
             (new AuthController())->processLogin();
             break;
 
+        case 'register':
+            (new AuthController())->register();
+            break;
+
+        case 'process-register':
+            (new AuthController())->processRegister();
+            break;
+
         // ---- Libros ----
         case 'libros':
             (new LibroController())->index();

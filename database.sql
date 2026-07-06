@@ -21,7 +21,18 @@ CREATE TABLE libros (
     FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL
 );
 
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Datos de ejemplo
+INSERT INTO usuarios (nombre, email, password) VALUES
+    ('Administrador', 'admin@admin.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); -- password: password
+
 INSERT INTO categorias (nombre) VALUES
     ('Ficción'), ('Ciencia'), ('Historia'), ('Infantil'), ('Autoayuda');
 

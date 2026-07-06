@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Librería</title>
+    <title>Crear Cuenta - Librería</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -24,18 +24,17 @@
 
             <div class="left-content">
                 <img src="assets/img/logo.png" alt="Logo Librería" class="auth-logo">
-                <h1>BIENVENIDO</h1>
-                <h2>SISTEMA DE INVENTARIO</h2>
-                <p>Administra tus productos.
-                    Controla tus compras, ventas, créditos y reportes financieros de manera rápida y segura.
-                    ¡Accede para optimizar tu negocio!</p>
+                <h1>ÚNETE</h1>
+                <h2>AL SISTEMA DE INVENTARIO</h2>
+                <p>Crea tu cuenta para administrar tus productos.
+                    Controla tus compras, ventas, créditos y reportes financieros de manera rápida y segura.</p>
             </div>
         </div>
 
         <div class="right-panel">
             <div class="login-wrapper">
-                <h2>Iniciar Sesión</h2>
-                <p class="subtitle">Ingresa tus credenciales para acceder al sistema de la librería.</p>
+                <h2>Crear Cuenta</h2>
+                <p class="subtitle">Ingresa tus datos para registrarte en el sistema de la librería.</p>
 
                 <?php if (!empty($error)): ?>
                     <div
@@ -43,19 +42,18 @@
                         <?= htmlspecialchars($error) ?>
                     </div>
                 <?php endif; ?>
-                
-                <?php if (!empty($success)): ?>
-                    <div
-                        style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 10px; border-radius: 8px; margin-bottom: 20px; font-size: 14px;">
-                        <?= htmlspecialchars($success) ?>
-                    </div>
-                <?php endif; ?>
 
-                <form action="index.php?action=process-login" method="POST" id="loginForm">
+                <form action="index.php?action=process-register" method="POST" id="registerForm">
                     <div class="input-group">
-                        <span class="icon-left"><i class="bi bi-person-fill"></i></span>
-                        <input type="text" name="email" id="email" value="<?= htmlspecialchars($old_email ?? '') ?>"
-                            placeholder="Usuario o Correo" required>
+                        <span class="icon-left"><i class="bi bi-person-badge-fill"></i></span>
+                        <input type="text" name="nombre" id="nombre" value="<?= htmlspecialchars($old_nombre ?? '') ?>"
+                            placeholder="Nombre Completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="icon-left"><i class="bi bi-envelope-fill"></i></span>
+                        <input type="email" name="email" id="email" value="<?= htmlspecialchars($old_email ?? '') ?>"
+                            placeholder="Correo Electrónico" required>
                     </div>
 
                     <div class="input-group">
@@ -64,19 +62,11 @@
                         <button type="button" class="btn-show" id="showPassword">MOSTRAR</button>
                     </div>
 
-                    <div class="form-options">
-                        <label class="remember">
-                            <input type="checkbox" name="remember">
-                            <span>Recordarme</span>
-                        </label>
-                        <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
-                    </div>
-
-                    <button type="submit" class="btn-primary" id="loginBtn">
-                        <span class="btn-text">Iniciar Sesión</span>
+                    <button type="submit" class="btn-primary" id="registerBtn">
+                        <span class="btn-text">Crear Cuenta</span>
                     </button>
 
-                    <p class="signup-link">¿No tienes cuenta? <a href="index.php?action=register">Crea tu cuenta</a></p>
+                    <p class="signup-link">¿Ya tienes cuenta? <a href="index.php?action=login">Inicia sesión</a></p>
                 </form>
             </div>
 

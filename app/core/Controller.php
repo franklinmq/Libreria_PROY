@@ -21,6 +21,22 @@ class Controller
     }
 
     /**
+     * Renderiza una vista aislada, sin header ni footer (útil para login)
+     */
+    protected function renderStandalone(string $view, array $data = []): void
+    {
+        extract($data);
+
+        $viewPath = __DIR__ . "/../views/{$view}.php";
+
+        if (!file_exists($viewPath)) {
+            die("La vista '{$view}' no existe.");
+        }
+
+        require $viewPath;
+    }
+
+    /**
      * Redirige a otra acción/ruta interna
      */
     protected function redirect(string $url): void

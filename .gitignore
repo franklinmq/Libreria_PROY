@@ -1,0 +1,29 @@
+# Entorno / Variables sensibles
+.env
+.env.local
+
+# Dependencias (Composer)
+/vendor/
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# Archivos de Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs y Temporales
+/temp/
+/logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

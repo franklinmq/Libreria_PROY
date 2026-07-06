@@ -7,11 +7,21 @@
 
 require_once __DIR__ . '/../app/controllers/LibroController.php';
 require_once __DIR__ . '/../app/controllers/CategoriaController.php';
+require_once __DIR__ . '/../app/controllers/AuthController.php';
 
-$action = $_GET['action'] ?? 'libros';
+$action = $_GET['action'] ?? 'login'; // Defaults to login if no action is provided
 
 try {
     switch ($action) {
+        // ---- Auth ----
+        case 'login':
+            (new AuthController())->login();
+            break;
+            
+        case 'process-login':
+            (new AuthController())->processLogin();
+            break;
+
         // ---- Libros ----
         case 'libros':
             (new LibroController())->index();

@@ -75,6 +75,8 @@
     </div>
 
     <script src="assets/js/auth.js"></script>
-</body>
-
-</html>
+    
+    <?php 
+    $isAuthPage = true;
+    require_once __DIR__ . '/../layout/footer.php'; 
+    ?>

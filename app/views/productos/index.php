@@ -5,9 +5,9 @@
         <i class="bi bi-check-circle me-1"></i>
         <?php
             $mensajes = [
-                'creado'      => 'Libro agregado correctamente.',
-                'actualizado' => 'Libro actualizado correctamente.',
-                'eliminado'   => 'Libro eliminado del inventario.',
+                'creado'      => 'Producto agregado correctamente.',
+                'actualizado' => 'Producto actualizado correctamente.',
+                'eliminado'   => 'Producto eliminado del inventario.',
             ];
             echo $mensajes[$msg] ?? 'Operación realizada.';
         ?>
@@ -20,9 +20,9 @@
     <div class="col-sm-6 col-lg-3">
         <div class="card stat-card shadow-sm h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-book"></i></div>
+                <div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-box-seam"></i></div>
                 <div>
-                    <div class="text-muted small">Títulos registrados</div>
+                    <div class="text-muted small">Productos registrados</div>
                     <div class="fs-4 fw-bold"><?= (int) $total ?></div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="card-body d-flex align-items-center gap-3">
                 <div class="stat-icon bg-warning-subtle text-warning"><i class="bi bi-exclamation-triangle"></i></div>
                 <div>
-                    <div class="text-muted small">Stock bajo (&le; 5)</div>
+                    <div class="text-muted small">Stock bajo (&le; 10)</div>
                     <div class="fs-4 fw-bold"><?= count($stockBajo) ?></div>
                 </div>
             </div>
@@ -65,12 +65,12 @@
 
 <div class="card shadow-sm">
     <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Inventario de libros</h5>
+        <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Inventario de productos</h5>
 
         <form class="d-flex" role="search" method="get" action="index.php">
-            <input type="hidden" name="action" value="libros">
+            <input type="hidden" name="action" value="productos">
             <input type="search" name="q" value="<?= htmlspecialchars($busqueda) ?>"
-                   class="form-control form-control-sm me-2" placeholder="Buscar por título, autor o ISBN...">
+                   class="form-control form-control-sm me-2" placeholder="Buscar por nombre, código o marca...">
             <button class="btn btn-sm btn-outline-primary" type="submit">
                 <i class="bi bi-search"></i>
             </button>
@@ -81,53 +81,53 @@
         <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th>Título</th>
-                    <th>Autor</th>
-                    <th>ISBN</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Marca</th>
                     <th>Categoría</th>
-                    <th class="text-end">Precio</th>
+                    <th class="text-end">Precio Venta</th>
                     <th class="text-center">Stock</th>
                     <th class="text-end">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($libros)): ?>
+                <?php if (empty($productos)): ?>
                     <tr>
                         <td colspan="7" class="text-center text-muted py-4">
                             <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                            No se encontraron libros en el inventario.
+                            No se encontraron productos en el inventario.
                         </td>
                     </tr>
                 <?php else: ?>
-                    <?php foreach ($libros as $libro): ?>
+                    <?php foreach ($productos as $producto): ?>
                         <tr>
-                            <td class="fw-semibold"><?= htmlspecialchars($libro['titulo']) ?></td>
-                            <td><?= htmlspecialchars($libro['autor']) ?></td>
-                            <td><span class="text-muted small"><?= htmlspecialchars($libro['isbn']) ?></span></td>
+                            <td><span class="text-muted small"><?= htmlspecialchars($producto['codigo_barras']) ?></span></td>
+                            <td class="fw-semibold"><?= htmlspecialchars($producto['nombre']) ?></td>
+                            <td><?= htmlspecialchars($producto['marca'] ?? '') ?></td>
                             <td>
-                                <?php if ($libro['categoria_nombre']): ?>
-                                    <span class="badge badge-cat"><?= htmlspecialchars($libro['categoria_nombre']) ?></span>
+                                <?php if ($producto['categoria_nombre']): ?>
+                                    <span class="badge badge-cat"><?= htmlspecialchars($producto['categoria_nombre']) ?></span>
                                 <?php else: ?>
                                     <span class="text-muted">—</span>
                                 <?php endif; ?>
                             </td>
-                            <td class="text-end">$<?= number_format((float) $libro['precio'], 2) ?></td>
+                            <td class="text-end">$<?= number_format((float) $producto['precio_venta'], 2) ?></td>
                             <td class="text-center">
-                                <span class="badge <?= $libro['stock'] <= 5 ? 'text-bg-warning' : 'text-bg-success' ?>">
-                                    <?= (int) $libro['stock'] ?>
+                                <span class="badge <?= $producto['stock'] <= 10 ? 'text-bg-warning' : 'text-bg-success' ?>">
+                                    <?= (int) $producto['stock'] ?>
                                 </span>
                             </td>
                             <td class="text-end">
-                                <a href="index.php?action=libro-ver&id=<?= $libro['id'] ?>"
+                                <a href="index.php?action=producto-ver&id=<?= $producto['id'] ?>"
                                    class="btn btn-sm btn-outline-secondary" title="Ver">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="index.php?action=libro-editar&id=<?= $libro['id'] ?>"
+                                <a href="index.php?action=producto-editar&id=<?= $producto['id'] ?>"
                                    class="btn btn-sm btn-outline-primary" title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </a>
-                                <form action="index.php?action=libro-eliminar&id=<?= $libro['id'] ?>" method="post"
-                                      class="d-inline" onsubmit="return confirm('¿Eliminar este libro del inventario?');">
+                                <form action="index.php?action=producto-eliminar&id=<?= $producto['id'] ?>" method="post"
+                                      class="d-inline" onsubmit="return confirm('¿Eliminar este producto del inventario?');">
                                     <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar">
                                         <i class="bi bi-trash"></i>
                                     </button>

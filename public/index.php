@@ -5,7 +5,7 @@
  * Todas las peticiones pasan por aquí y se enrutan según ?action=
  */
 
-require_once __DIR__ . '/../app/controllers/LibroController.php';
+require_once __DIR__ . '/../app/controllers/ProductoController.php';
 require_once __DIR__ . '/../app/controllers/CategoriaController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 
@@ -30,33 +30,33 @@ try {
             (new AuthController())->processRegister();
             break;
 
-        // ---- Libros ----
-        case 'libros':
-            (new LibroController())->index();
+        // ---- Productos ----
+        case 'productos':
+            (new ProductoController())->index();
             break;
 
-        case 'libro-nuevo':
-            (new LibroController())->crear();
+        case 'producto-nuevo':
+            (new ProductoController())->crear();
             break;
 
-        case 'libro-guardar':
-            (new LibroController())->guardar();
+        case 'producto-guardar':
+            (new ProductoController())->guardar();
             break;
 
-        case 'libro-editar':
-            (new LibroController())->editar();
+        case 'producto-editar':
+            (new ProductoController())->editar();
             break;
 
-        case 'libro-actualizar':
-            (new LibroController())->actualizar();
+        case 'producto-actualizar':
+            (new ProductoController())->actualizar();
             break;
 
-        case 'libro-ver':
-            (new LibroController())->ver();
+        case 'producto-ver':
+            (new ProductoController())->ver();
             break;
 
-        case 'libro-eliminar':
-            (new LibroController())->eliminar();
+        case 'producto-eliminar':
+            (new ProductoController())->eliminar();
             break;
 
         // ---- Categorías ----

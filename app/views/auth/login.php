@@ -25,10 +25,10 @@
             <div class="left-content">
                 <img src="assets/img/logo.png" alt="Logo Librería" class="auth-logo">
                 <h1>BIENVENIDO</h1>
-                <h2>SISTEMA DE INVENTARIO</h2>
+                <h2>LIBRERÍA F y N</h2>
                 <p>Administra tus productos.
-                    Controla tus compras, ventas, créditos y reportes financieros de manera rápida y segura.
-                    ¡Accede para optimizar tu negocio!</p>
+                    Controla tus compras, ventas y reportes financieros de manera rápida y segura.
+                </p>
             </div>
         </div>
 

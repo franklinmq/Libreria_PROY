@@ -17,18 +17,47 @@
     box-sizing: border-box;
 }
 
+html, body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #ffffff;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Desktop screen height locking for no-scroll */
+@media (min-width: 901px) {
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    body {
+        height: 100vh;
+    }
+
+    .split-container {
+        height: 100vh;
+    }
+
+    .auth-footer {
+        bottom: 20px !important;
+    }
 }
 
 .split-container {
     display: flex;
     width: 100%;
     flex: 1;
+    overflow: hidden;
 }
 
 .left-panel {
@@ -38,6 +67,7 @@ body {
     align-items: center;
     padding: 60px;
     z-index: 1;
+    overflow: hidden;
 }
 
 .bg-shapes {
@@ -101,14 +131,15 @@ body {
 
 .auth-logo {
     display: block;
-    width: 120px;
+    width: 100%;
+    max-width: 210px;
     height: auto;
     margin-bottom: 20px;
     filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 .left-content h1 {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 3.2vw, 3.5rem);
     font-weight: 800;
     letter-spacing: 2px;
     margin-bottom: 5px;
@@ -117,16 +148,16 @@ body {
 }
 
 .left-content h2 {
-    font-size: 1.1rem;
+    font-size: clamp(0.9rem, 1.1vw, 1.1rem);
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .left-content p {
     font-size: 0.9rem;
-    line-height: 1.7;
+    line-height: 1.6;
     font-weight: 400;
     opacity: 0.9;
 }
@@ -139,6 +170,7 @@ body {
     position: relative;
     z-index: 1;
     background-color: #ffffff;
+    overflow: hidden;
 }
 
 .login-wrapper {
@@ -149,17 +181,18 @@ body {
 }
 
 .login-wrapper h2 {
-    font-size: 2rem;
+    font-size: 1.85rem;
     font-weight: 700;
     color: var(--text-black);
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 }
 
 .subtitle {
     color: var(--text-gray);
     font-size: 0.8rem;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
     font-weight: 400;
+    line-height: 1.4;
 }
 
 .input-group {
@@ -167,24 +200,36 @@ body {
     border-radius: 6px;
     display: flex;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     padding: 0 16px;
-    height: 52px;
+    height: 50px;
+    width: 100%;
+    border: 1px solid transparent;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group:focus-within {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(17, 100, 207, 0.12);
 }
 
 .icon-left {
     color: var(--text-black);
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     margin-right: 12px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .input-group input {
     flex: 1;
+    min-width: 0;
     background: transparent;
     border: none;
     outline: none;
     height: 100%;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-family: inherit;
     font-weight: 500;
     color: var(--text-black);
@@ -203,14 +248,22 @@ body {
     font-size: 0.75rem;
     cursor: pointer;
     letter-spacing: 0.5px;
+    padding: 4px 0 4px 8px;
+    flex-shrink: 0;
+}
+
+.btn-show:active {
+    opacity: 0.7;
 }
 
 .form-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
-    margin-top: 5px;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+    margin-top: 4px;
 }
 
 .remember {
@@ -221,6 +274,7 @@ body {
     color: var(--text-gray);
     cursor: pointer;
     font-weight: 500;
+    user-select: none;
 }
 
 .remember input {
@@ -228,6 +282,7 @@ body {
     height: 15px;
     border-radius: 4px;
     accent-color: var(--primary-blue);
+    cursor: pointer;
 }
 
 .forgot-link {
@@ -235,11 +290,16 @@ body {
     color: var(--primary-blue);
     text-decoration: none;
     font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.forgot-link:hover {
+    text-decoration: underline;
 }
 
 .btn-primary {
     width: 100%;
-    height: 52px;
+    height: 50px;
     background-color: var(--btn-dark);
     color: #fff;
     border: none;
@@ -248,16 +308,20 @@ body {
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .btn-primary:hover {
     background-color: var(--btn-dark-hover);
 }
 
+.btn-primary:active {
+    transform: scale(0.99);
+}
+
 .signup-link {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 22px;
     font-size: 0.8rem;
     color: var(--text-gray);
     font-weight: 500;
@@ -269,41 +333,179 @@ body {
     text-decoration: none;
 }
 
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Tablet & Mobile Styles */
 @media (max-width: 900px) {
+    html, body {
+        height: auto !important;
+        min-height: 100vh;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+    }
+
     .split-container {
         flex-direction: column;
+        height: auto;
+        min-height: 100vh;
     }
 
     .left-panel {
         flex: none;
-        padding: 40px;
-        min-height: 400px;
+        padding: 32px 24px 24px;
+        min-height: auto;
+        justify-content: center;
+        text-align: center;
     }
 
     .shape-1 {
-        top: -400px;
-        left: -200px;
+        top: -300px;
+        left: -150px;
+        width: 600px;
+        height: 600px;
     }
 
     .shape-2 {
-        display: none;
+        display: block;
+        width: 240px;
+        height: 240px;
+        bottom: -90px;
+        right: -50px;
+        left: auto;
+        z-index: 2;
     }
 
     .shape-3 {
-        display: none;
+        display: block;
+        width: 170px;
+        height: 170px;
+        top: -50px;
+        right: -40px;
+        left: auto;
+        z-index: 3;
     }
 
     .left-content {
         margin-left: 0;
-        margin-top: 40px;
+        margin-top: 0;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .auth-logo {
+        max-width: 135px;
+        margin-bottom: 12px;
+    }
+
+    .left-content h1 {
+        font-size: 1.8rem;
+        margin-bottom: 2px;
+    }
+
+    .left-content h2 {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+
+    .left-content p {
+        font-size: 0.82rem;
+        line-height: 1.5;
+        max-width: 460px;
+        opacity: 0.95;
     }
 
     .right-panel {
-        padding: 40px 20px;
-        align-items: flex-start;
+        flex: 1;
+        padding: 28px 20px 36px;
+        align-items: center;
+    }
+
+    .login-wrapper {
+        padding: 0;
+        margin: 0 auto;
     }
 
     .shape-4 {
-        display: none;
+        display: block;
+        width: 150px;
+        height: 150px;
+        bottom: -50px;
+        right: -50px;
+        opacity: 0.75;
+    }
+
+    .auth-footer {
+        position: relative !important;
+        bottom: auto !important;
+        margin-top: auto !important;
+        padding: 15px 0 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .left-panel {
+        padding: 26px 16px 18px;
+    }
+
+    .auth-logo {
+        max-width: 110px;
+    }
+
+    .left-content h1 {
+        font-size: 1.55rem;
+    }
+
+    .left-content h2 {
+        font-size: 0.8rem;
+    }
+
+    .left-content p {
+        font-size: 0.76rem;
+    }
+
+    .right-panel {
+        padding: 24px 16px 30px;
+    }
+
+    .login-wrapper h2 {
+        font-size: 1.65rem;
+    }
+
+    .subtitle {
+        font-size: 0.78rem;
+        margin-bottom: 20px;
+    }
+
+    .input-group {
+        height: 48px;
+        padding: 0 14px;
+        margin-bottom: 14px;
+    }
+
+    .btn-primary {
+        height: 48px;
+    }
+
+    .form-options {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 6px;
+        margin-bottom: 20px;
+    }
+
+    .remember span, .forgot-link {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .form-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
     }
 }

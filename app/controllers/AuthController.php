@@ -25,9 +25,9 @@ class AuthController extends Controller
             $_SESSION['user_id'] = $usuario['id'];
             $_SESSION['user_name'] = $usuario['nombre'];
             
-            $this->redirect('index.php?action=productos');
+            $this->redirect('index.php?action=dashboard');
         } elseif ($email === 'admin@admin.com' && $password === '12345') {
-            $this->redirect('index.php?action=productos');
+            $this->redirect('index.php?action=dashboard');
         } else {
             $this->renderStandalone('auth/login', [
                 'error' => 'Correo o contraseña incorrectos.',

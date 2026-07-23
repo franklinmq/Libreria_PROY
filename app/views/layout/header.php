@@ -24,6 +24,11 @@ if (session_status() === PHP_SESSION_NONE) {
         <hr style="border-color: rgba(255,255,255,0.2);">
         <ul class="nav nav-pills flex-column mb-auto gap-1">
             <li class="nav-item">
+                <a href="index.php?action=dashboard" class="nav-link <?= ($_GET['action'] ?? '') === 'dashboard' ? 'active' : '' ?>" aria-current="page">
+                    <i class="bi bi-speedometer2 me-2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="index.php?action=productos" class="nav-link <?= ($_GET['action'] ?? '') === 'productos' ? 'active' : '' ?>" aria-current="page">
                     <i class="bi bi-box-seam me-2"></i> Productos
                 </a>
@@ -66,7 +71,9 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- Main Content Wrapper -->
     <div class="d-flex flex-column flex-grow-1" style="min-width: 0; background-color: var(--bg-soft);">
         <header class="app-topbar py-3 px-4 d-flex justify-content-between align-items-center border-bottom bg-white sticky-top">
-            <h5 class="mb-0 text-dark fw-bold" style="color: var(--brand-primary) !important;">Panel de Control</h5>
+            <h5 class="mb-0 text-dark fw-bold" style="color: var(--brand-primary) !important;">
+                <?= ($_GET['action'] ?? '') === 'dashboard' ? 'Dashboard' : 'Panel de Control' ?>
+            </h5>
         </header>
 
         <main class="container-fluid px-4 py-4 flex-grow-1">

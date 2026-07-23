@@ -9,6 +9,7 @@ require_once __DIR__ . '/../app/controllers/ProductoController.php';
 require_once __DIR__ . '/../app/controllers/CategoriaController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/MarcaController.php';
+require_once __DIR__ . '/../app/controllers/DashboardController.php';
 
 $action = $_GET['action'] ?? 'login'; // Defaults to login if no action is provided
 
@@ -29,6 +30,11 @@ try {
 
         case 'process-register':
             (new AuthController())->processRegister();
+            break;
+
+        // ---- Dashboard ----
+        case 'dashboard':
+            (new DashboardController())->index();
             break;
 
         // ---- Productos ----

@@ -11,17 +11,17 @@ class Producto
         $this->db = Database::getConnection();
     }
 
-    /** Obtiene todos los productos, opcionalmente filtrados por texto de búsqueda */
     public function obtenerTodos(string $busqueda = ''): array
     {
-        $sql = "SELECT p.*, c.nombre AS categoria_nombre
+        $sql = "SELECT p.*, c.nombre AS categoria_nombre, m.nombre AS marca_nombre
                 FROM productos p
-                LEFT JOIN categorias c ON c.id = p.categoria_id";
+                LEFT JOIN categorias c ON c.id = p.categoria_id
+                LEFT JOIN marcas m ON m.id = p.marca_id";
 
         $params = [];
 
         if ($busqueda !== '') {
-            $sql .= " WHERE p.nombre LIKE :busqueda OR p.codigo_barras LIKE :busqueda OR p.marca LIKE :busqueda";
+            $sql .= " WHERE p.nombre LIKE :busqueda OR p.codigo_barras LIKE :busqueda OR m.nombre LIKE :busqueda";
             $params[':busqueda'] = "%{$busqueda}%";
         }
 
@@ -36,9 +36,10 @@ class Producto
     public function obtenerPorId(int $id): ?array
     {
         $stmt = $this->db->prepare(
-            "SELECT p.*, c.nombre AS categoria_nombre
+            "SELECT p.*, c.nombre AS categoria_nombre, m.nombre AS marca_nombre
              FROM productos p
              LEFT JOIN categorias c ON c.id = p.categoria_id
+             LEFT JOIN marcas m ON m.id = p.marca_id
              WHERE p.id = :id"
         );
         $stmt->execute([':id' => $id]);
@@ -50,8 +51,8 @@ class Producto
     public function crear(array $datos): bool
     {
         $stmt = $this->db->prepare(
-            "INSERT INTO productos (codigo_barras, nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca, imagen)
-             VALUES (:codigo_barras, :nombre, :descripcion, :categoria_id, :precio_compra, :precio_venta, :stock, :marca, :imagen)"
+            "INSERT INTO productos (codigo_barras, nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id, imagen)
+             VALUES (:codigo_barras, :nombre, :descripcion, :categoria_id, :precio_compra, :precio_venta, :stock, :marca_id, :imagen)"
         );
 
         return $stmt->execute([
@@ -62,7 +63,7 @@ class Producto
             ':precio_compra' => $datos['precio_compra'],
             ':precio_venta'  => $datos['precio_venta'],
             ':stock'         => $datos['stock'],
-            ':marca'         => $datos['marca'],
+            ':marca_id'      => $datos['marca_id'],
             ':imagen'        => $datos['imagen'] ?? null,
         ]);
     }
@@ -78,7 +79,7 @@ class Producto
                 precio_compra = :precio_compra,
                 precio_venta = :precio_venta,
                 stock = :stock,
-                marca = :marca
+                marca_id = :marca_id
              WHERE id = :id"
         );
 
@@ -90,7 +91,7 @@ class Producto
             ':precio_compra' => $datos['precio_compra'],
             ':precio_venta'  => $datos['precio_venta'],
             ':stock'         => $datos['stock'],
-            ':marca'         => $datos['marca'],
+            ':marca_id'      => $datos['marca_id'],
             ':id'            => $id,
         ]);
     }

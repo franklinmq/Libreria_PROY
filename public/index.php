@@ -8,6 +8,7 @@
 require_once __DIR__ . '/../app/controllers/ProductoController.php';
 require_once __DIR__ . '/../app/controllers/CategoriaController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../app/controllers/MarcaController.php';
 
 $action = $_GET['action'] ?? 'login'; // Defaults to login if no action is provided
 
@@ -66,6 +67,14 @@ try {
 
         case 'categoria-guardar':
             (new CategoriaController())->guardar();
+            break;
+
+        case 'categoria-guardar-ajax':
+            (new CategoriaController())->guardarAjax();
+            break;
+
+        case 'marca-guardar-ajax':
+            (new MarcaController())->guardarAjax();
             break;
 
         default:

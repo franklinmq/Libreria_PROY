@@ -25,19 +25,47 @@ $val = fn($campo) => htmlspecialchars($valores[$campo] ?? '');
 
     <div class="col-md-6">
         <label class="form-label">Marca</label>
-        <input type="text" name="marca" value="<?= $val('marca') ?>" class="form-control">
+        <div class="input-group">
+            <select name="marca_id" id="marca_id" class="form-select">
+                <option value="">-- Sin marca --</option>
+                <?php foreach ($marcas as $marca): ?>
+                    <option value="<?= $marca['id'] ?>" <?= (($valores['marca_id'] ?? '') == $marca['id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($marca['nombre']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalMarca" title="Nueva Marca">
+                <i class="bi bi-plus-circle"></i>
+            </button>
+        </div>
     </div>
     
     <div class="col-md-6">
         <label class="form-label">Categoría</label>
-        <select name="categoria_id" class="form-select">
-            <option value="">-- Sin categoría --</option>
-            <?php foreach ($categorias as $cat): ?>
-                <option value="<?= $cat['id'] ?>" <?= (($valores['categoria_id'] ?? '') == $cat['id']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($cat['nombre']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <div class="input-group">
+            <select name="categoria_id" id="categoria_id" class="form-select">
+                <option value="">-- Sin categoría --</option>
+                <?php
+                $principales = array_filter($categorias, fn($c) => empty($c['parent_id']));
+                $subcategorias = array_filter($categorias, fn($c) => !empty($c['parent_id']));
+                ?>
+                <?php foreach ($principales as $principal): ?>
+                    <option value="<?= $principal['id'] ?>" <?= (($valores['categoria_id'] ?? '') == $principal['id']) ? 'selected' : '' ?> class="fw-bold">
+                        <?= htmlspecialchars($principal['nombre']) ?>
+                    </option>
+                    <?php foreach ($subcategorias as $sub): ?>
+                        <?php if ($sub['parent_id'] == $principal['id']): ?>
+                            <option value="<?= $sub['id'] ?>" <?= (($valores['categoria_id'] ?? '') == $sub['id']) ? 'selected' : '' ?>>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&#8627; <?= htmlspecialchars($sub['nombre']) ?>
+                            </option>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                <?php endforeach; ?>
+            </select>
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalCategoria" title="Nueva Categoría">
+                <i class="bi bi-plus-circle"></i>
+            </button>
+        </div>
     </div>
 
     <div class="col-md-12">

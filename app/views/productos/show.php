@@ -16,7 +16,7 @@
                     <dd class="col-sm-8"><?= htmlspecialchars($producto['codigo_barras']) ?></dd>
 
                     <dt class="col-sm-4">Marca</dt>
-                    <dd class="col-sm-8"><?= htmlspecialchars($producto['marca'] ?: '—') ?></dd>
+                    <dd class="col-sm-8"><?= htmlspecialchars($producto['marca_nombre'] ?? '—') ?></dd>
 
                     <dt class="col-sm-4">Descripción</dt>
                     <dd class="col-sm-8"><?= nl2br(htmlspecialchars($producto['descripcion'] ?: '—')) ?></dd>

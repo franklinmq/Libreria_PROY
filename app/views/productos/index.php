@@ -67,14 +67,19 @@
     <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
         <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Inventario de productos</h5>
 
-        <form class="d-flex" role="search" method="get" action="index.php">
-            <input type="hidden" name="action" value="productos">
-            <input type="search" name="q" value="<?= htmlspecialchars($busqueda) ?>"
-                   class="form-control form-control-sm me-2" placeholder="Buscar por nombre, código o marca...">
-            <button class="btn btn-sm btn-outline-primary" type="submit">
-                <i class="bi bi-search"></i>
+        <div class="d-flex gap-2">
+            <form class="d-flex" role="search" method="get" action="index.php">
+                <input type="hidden" name="action" value="productos">
+                <input type="search" name="q" value="<?= htmlspecialchars($busqueda) ?>"
+                       class="form-control form-control-sm" placeholder="Buscar por nombre, código...">
+                <button class="btn btn-sm btn-outline-primary ms-1" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+            <button type="button" class="btn btn-primary btn-sm text-nowrap" data-bs-toggle="modal" data-bs-target="#modalNuevoProducto">
+                <i class="bi bi-plus-circle me-1"></i> Agregar Producto
             </button>
-        </form>
+        </div>
     </div>
 
     <div class="table-responsive">
@@ -103,7 +108,7 @@
                         <tr>
                             <td><span class="text-muted small"><?= htmlspecialchars($producto['codigo_barras']) ?></span></td>
                             <td class="fw-semibold"><?= htmlspecialchars($producto['nombre']) ?></td>
-                            <td><?= htmlspecialchars($producto['marca'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($producto['marca_nombre'] ?? '') ?></td>
                             <td>
                                 <?php if ($producto['categoria_nombre']): ?>
                                     <span class="badge badge-cat"><?= htmlspecialchars($producto['categoria_nombre']) ?></span>
@@ -140,3 +145,37 @@
         </table>
     </div>
 </div>
+
+<!-- Modal Nuevo Producto -->
+<div class="modal fade" id="modalNuevoProducto" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="index.php?action=producto-guardar" method="post" novalidate>
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Agregar nuevo producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <?php include __DIR__ . '/_form.php'; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i> Guardar Producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php include __DIR__ . '/_modals_auxiliares.php'; ?>
+
+<?php if (isset($show_modal) && $show_modal): ?>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var myModal = new bootstrap.Modal(document.getElementById('modalNuevoProducto'));
+        myModal.show();
+    });
+</script>
+<?php endif; ?>

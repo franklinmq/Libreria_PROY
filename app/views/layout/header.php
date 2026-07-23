@@ -25,7 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <ul class="nav nav-pills flex-column mb-auto gap-1">
             <li class="nav-item">
                 <a href="index.php?action=productos" class="nav-link <?= ($_GET['action'] ?? '') === 'productos' ? 'active' : '' ?>" aria-current="page">
-                    <i class="bi bi-grid me-2"></i> Inventario
+                    <i class="bi bi-box-seam me-2"></i> Productos
                 </a>
             </li>
             <li>
@@ -67,10 +67,6 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="d-flex flex-column flex-grow-1" style="min-width: 0; background-color: var(--bg-soft);">
         <header class="app-topbar py-3 px-4 d-flex justify-content-between align-items-center border-bottom bg-white sticky-top">
             <h5 class="mb-0 text-dark fw-bold" style="color: var(--brand-primary) !important;">Panel de Control</h5>
-            <!-- Botón de acción principal visible en todas partes -->
-            <a class="btn btn-add" href="index.php?action=producto-nuevo">
-                <i class="bi bi-plus-circle me-1"></i> Añadir Producto
-            </a>
         </header>
 
         <main class="container-fluid px-4 py-4 flex-grow-1">

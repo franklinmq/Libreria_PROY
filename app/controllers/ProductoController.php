@@ -3,30 +3,37 @@
 require_once __DIR__ . '/../core/Controller.php';
 require_once __DIR__ . '/../models/Producto.php';
 require_once __DIR__ . '/../models/Categoria.php';
+require_once __DIR__ . '/../models/Marca.php';
 
 class ProductoController extends Controller
 {
     private Producto $productoModel;
     private Categoria $categoriaModel;
+    private Marca $marcaModel;
 
     public function __construct()
     {
         $this->productoModel  = new Producto();
         $this->categoriaModel = new Categoria();
+        $this->marcaModel     = new Marca();
     }
 
-    /** GET /?action=productos  -> Listado + buscador + dashboard */
     public function index(): void
     {
         $busqueda  = $_GET['q'] ?? '';
         $productos = $this->productoModel->obtenerTodos($busqueda);
 
         $this->render('productos/index', [
-            'productos' => $productos,
-            'busqueda'  => $busqueda,
-            'total'     => $this->productoModel->totalProductos(),
-            'valorInv'  => $this->productoModel->valorInventario(),
-            'stockBajo' => $this->productoModel->stockBajo(),
+            'productos'  => $productos,
+            'busqueda'   => $busqueda,
+            'total'      => $this->productoModel->totalProductos(),
+            'valorInv'   => $this->productoModel->valorInventario(),
+            'stockBajo'  => $this->productoModel->stockBajo(),
+            'categorias' => $this->categoriaModel->obtenerTodas(),
+            'marcas'     => $this->marcaModel->obtenerTodas(),
+            'errores'    => [],
+            'old'        => [],
+            'show_modal' => false,
         ]);
     }
 
@@ -35,21 +42,31 @@ class ProductoController extends Controller
     {
         $this->render('productos/create', [
             'categorias' => $this->categoriaModel->obtenerTodas(),
+            'marcas'     => $this->marcaModel->obtenerTodas(),
             'errores'    => [],
             'old'        => [],
         ]);
     }
 
-    /** POST /?action=producto-guardar */
     public function guardar(): void
     {
         $datos = $this->validar($_POST);
 
         if (!empty($datos['errores'])) {
-            $this->render('productos/create', [
+            $busqueda  = '';
+            $productos = $this->productoModel->obtenerTodos($busqueda);
+
+            $this->render('productos/index', [
+                'productos'  => $productos,
+                'busqueda'   => $busqueda,
+                'total'      => $this->productoModel->totalProductos(),
+                'valorInv'   => $this->productoModel->valorInventario(),
+                'stockBajo'  => $this->productoModel->stockBajo(),
                 'categorias' => $this->categoriaModel->obtenerTodas(),
+                'marcas'     => $this->marcaModel->obtenerTodas(),
                 'errores'    => $datos['errores'],
                 'old'        => $_POST,
+                'show_modal' => true,
             ]);
             return;
         }
@@ -71,6 +88,7 @@ class ProductoController extends Controller
         $this->render('productos/edit', [
             'producto'   => $producto,
             'categorias' => $this->categoriaModel->obtenerTodas(),
+            'marcas'     => $this->marcaModel->obtenerTodas(),
             'errores'    => [],
         ]);
     }
@@ -85,6 +103,7 @@ class ProductoController extends Controller
             $this->render('productos/edit', [
                 'producto'   => array_merge(['id' => $id], $_POST),
                 'categorias' => $this->categoriaModel->obtenerTodas(),
+                'marcas'     => $this->marcaModel->obtenerTodas(),
                 'errores'    => $datos['errores'],
             ]);
             return;
@@ -143,7 +162,7 @@ class ProductoController extends Controller
             'precio_compra' => $datos['precio_compra'] ?? 0,
             'precio_venta'  => $datos['precio_venta'] ?? 0,
             'stock'         => $datos['stock'] ?? 0,
-            'marca'         => trim($datos['marca'] ?? ''),
+            'marca_id'      => $datos['marca_id'] ?? null,
             'errores'       => $errores,
         ];
     }

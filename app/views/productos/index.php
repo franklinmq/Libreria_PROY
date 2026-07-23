@@ -66,16 +66,7 @@
 <div class="card shadow-sm">
     <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
         <h5 class="mb-0"><i class="bi bi-list-ul me-2"></i>Inventario de productos</h5>
-
         <div class="d-flex gap-2">
-            <form class="d-flex" role="search" method="get" action="index.php">
-                <input type="hidden" name="action" value="productos">
-                <input type="search" name="q" value="<?= htmlspecialchars($busqueda) ?>"
-                       class="form-control form-control-sm" placeholder="Buscar por nombre, código...">
-                <button class="btn btn-sm btn-outline-primary ms-1" type="submit">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
             <button type="button" class="btn btn-primary btn-sm text-nowrap" data-bs-toggle="modal" data-bs-target="#modalNuevoProducto">
                 <i class="bi bi-plus-circle me-1"></i> Agregar Producto
             </button>
@@ -83,7 +74,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 table-datatable">
             <thead class="table-light">
                 <tr>
                     <th>Código</th>

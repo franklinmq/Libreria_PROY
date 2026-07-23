@@ -27,4 +27,31 @@ class Categoria
         }
         return false;
     }
+
+    public function obtenerPorId(int $id): array|false
+    {
+        $stmt = $this->db->prepare("SELECT * FROM categorias WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch();
+    }
+
+    public function actualizar(int $id, string $nombre, ?int $parent_id = null): bool
+    {
+        $stmt = $this->db->prepare("UPDATE categorias SET nombre = :nombre, parent_id = :parent_id WHERE id = :id");
+        return $stmt->execute([
+            ':id' => $id,
+            ':nombre' => $nombre,
+            ':parent_id' => $parent_id
+        ]);
+    }
+
+    public function eliminar(int $id): bool
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM categorias WHERE id = :id");
+            return $stmt->execute([':id' => $id]);
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

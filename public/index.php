@@ -79,6 +79,14 @@ try {
             (new CategoriaController())->guardarAjax();
             break;
 
+        case 'categoria-actualizar':
+            (new CategoriaController())->actualizar();
+            break;
+
+        case 'categoria-eliminar':
+            (new CategoriaController())->eliminar();
+            break;
+
         case 'marca-guardar-ajax':
             (new MarcaController())->guardarAjax();
             break;

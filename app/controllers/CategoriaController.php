@@ -54,4 +54,34 @@ class CategoriaController extends Controller
             echo json_encode(['success' => false, 'message' => $e->getMessage()]);
         }
     }
+
+    public function actualizar(): void
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+        $nombre = trim($_POST['nombre'] ?? '');
+        $parent_id = !empty($_POST['parent_id']) ? (int) $_POST['parent_id'] : null;
+
+        if ($id > 0 && $nombre !== '') {
+            $this->categoriaModel->actualizar($id, $nombre, $parent_id);
+            $this->redirect('index.php?action=categorias&msg=actualizado');
+        } else {
+            $this->redirect('index.php?action=categorias&msg=error');
+        }
+    }
+
+    public function eliminar(): void
+    {
+        $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
+
+        if ($id > 0) {
+            $eliminado = $this->categoriaModel->eliminar($id);
+            if ($eliminado) {
+                $this->redirect('index.php?action=categorias&msg=eliminado');
+            } else {
+                $this->redirect('index.php?action=categorias&msg=error_eliminar');
+            }
+        } else {
+            $this->redirect('index.php?action=categorias&msg=error');
+        }
+    }
 }

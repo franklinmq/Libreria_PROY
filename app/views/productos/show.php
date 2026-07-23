@@ -12,9 +12,6 @@
                     <dt class="col-sm-4">Nombre</dt>
                     <dd class="col-sm-8"><?= htmlspecialchars($producto['nombre']) ?></dd>
 
-                    <dt class="col-sm-4">Código de Barras</dt>
-                    <dd class="col-sm-8"><?= htmlspecialchars($producto['codigo_barras']) ?></dd>
-
                     <dt class="col-sm-4">Marca</dt>
                     <dd class="col-sm-8"><?= htmlspecialchars($producto['marca_nombre'] ?? '—') ?></dd>
 

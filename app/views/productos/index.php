@@ -77,7 +77,6 @@
         <table class="table table-hover align-middle mb-0 table-datatable">
             <thead class="table-light">
                 <tr>
-                    <th>Código</th>
                     <th>Nombre</th>
                     <th>Marca</th>
                     <th>Categoría</th>
@@ -89,7 +88,7 @@
             <tbody>
                 <?php if (empty($productos)): ?>
                     <tr>
-                        <td colspan="7" class="text-center text-muted py-4">
+                        <td colspan="6" class="text-center text-muted py-4">
                             <i class="bi bi-inbox fs-3 d-block mb-2"></i>
                             No se encontraron productos en el inventario.
                         </td>
@@ -97,7 +96,6 @@
                 <?php else: ?>
                     <?php foreach ($productos as $producto): ?>
                         <tr>
-                            <td><span class="text-muted small"><?= htmlspecialchars($producto['codigo_barras']) ?></span></td>
                             <td class="fw-semibold"><?= htmlspecialchars($producto['nombre']) ?></td>
                             <td><?= htmlspecialchars($producto['marca_nombre'] ?? '') ?></td>
                             <td>

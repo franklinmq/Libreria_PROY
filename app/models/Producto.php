@@ -21,7 +21,7 @@ class Producto
         $params = [];
 
         if ($busqueda !== '') {
-            $sql .= " WHERE p.nombre LIKE :busqueda OR p.codigo_barras LIKE :busqueda OR m.nombre LIKE :busqueda";
+            $sql .= " WHERE p.nombre LIKE :busqueda OR m.nombre LIKE :busqueda";
             $params[':busqueda'] = "%{$busqueda}%";
         }
 
@@ -51,12 +51,11 @@ class Producto
     public function crear(array $datos): bool
     {
         $stmt = $this->db->prepare(
-            "INSERT INTO productos (codigo_barras, nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id, imagen)
-             VALUES (:codigo_barras, :nombre, :descripcion, :categoria_id, :precio_compra, :precio_venta, :stock, :marca_id, :imagen)"
+            "INSERT INTO productos (nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id, imagen)
+             VALUES (:nombre, :descripcion, :categoria_id, :precio_compra, :precio_venta, :stock, :marca_id, :imagen)"
         );
 
         return $stmt->execute([
-            ':codigo_barras' => $datos['codigo_barras'],
             ':nombre'        => $datos['nombre'],
             ':descripcion'   => $datos['descripcion'],
             ':categoria_id'  => $datos['categoria_id'],
@@ -72,7 +71,6 @@ class Producto
     {
         $stmt = $this->db->prepare(
             "UPDATE productos SET
-                codigo_barras = :codigo_barras,
                 nombre = :nombre,
                 descripcion = :descripcion,
                 categoria_id = :categoria_id,
@@ -84,7 +82,6 @@ class Producto
         );
 
         return $stmt->execute([
-            ':codigo_barras' => $datos['codigo_barras'],
             ':nombre'        => $datos['nombre'],
             ':descripcion'   => $datos['descripcion'],
             ':categoria_id'  => $datos['categoria_id'],

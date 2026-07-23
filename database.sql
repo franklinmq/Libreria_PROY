@@ -16,7 +16,6 @@ CREATE TABLE marcas (
 
 CREATE TABLE productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    codigo_barras VARCHAR(50) NOT NULL UNIQUE,
     nombre VARCHAR(200) NOT NULL,
     descripcion TEXT NULL,
     categoria_id INT NULL,
@@ -58,9 +57,9 @@ INSERT INTO marcas (nombre) VALUES
     ('Sudamericana'),
     ('Report');
 
-INSERT INTO productos (codigo_barras, nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id) VALUES
-    ('7701234567890', 'Cuaderno Espiral 100 hojas', 'Cuaderno tamaño carta cuadriculado', 6, 10.00, 15.00, 50, 1),
-    ('7701234567891', 'Bolígrafo Azul', 'Caja de 50 bolígrafos trazo fino', 7, 45.00, 60.00, 10, 2),
-    ('7701234567892', 'Espuma de Carnaval', 'Lata grande 500ml', 3, 8.00, 12.00, 100, 3),
-    ('7701234567893', 'Cien años de soledad', 'Libro edición especial', 4, 150.00, 220.00, 5, 4),
-    ('7701234567894', 'Papel Bond Resma', 'Resma de 500 hojas tamaño carta', 2, 30.00, 40.00, 20, 5);
+INSERT INTO productos (nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id) VALUES
+    ('Cuaderno Espiral 100 hojas', 'Cuaderno tamaño carta cuadriculado', 6, 10.00, 15.00, 50, 1),
+    ('Bolígrafo Azul', 'Caja de 50 bolígrafos trazo fino', 7, 45.00, 60.00, 10, 2),
+    ('Espuma de Carnaval', 'Lata grande 500ml', 3, 8.00, 12.00, 100, 3),
+    ('Cien años de soledad', 'Libro edición especial', 4, 150.00, 220.00, 5, 4),
+    ('Papel Bond Resma', 'Resma de 500 hojas tamaño carta', 2, 30.00, 40.00, 20, 5);

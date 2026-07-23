@@ -5,21 +5,12 @@ $val = fn($campo) => htmlspecialchars($valores[$campo] ?? '');
 ?>
 
 <div class="row g-3">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <label class="form-label">Nombre del Producto <span class="text-danger">*</span></label>
         <input type="text" name="nombre" value="<?= $val('nombre') ?>"
                class="form-control <?= isset($errores['nombre']) ? 'is-invalid' : '' ?>">
         <?php if (isset($errores['nombre'])): ?>
             <div class="invalid-feedback"><?= $errores['nombre'] ?></div>
-        <?php endif; ?>
-    </div>
-
-    <div class="col-md-4">
-        <label class="form-label">Código de Barras <span class="text-danger">*</span></label>
-        <input type="text" name="codigo_barras" value="<?= $val('codigo_barras') ?>"
-               class="form-control <?= isset($errores['codigo_barras']) ? 'is-invalid' : '' ?>">
-        <?php if (isset($errores['codigo_barras'])): ?>
-            <div class="invalid-feedback"><?= $errores['codigo_barras'] ?></div>
         <?php endif; ?>
     </div>
 

@@ -141,9 +141,6 @@ class ProductoController extends Controller
         if (trim($datos['nombre'] ?? '') === '') {
             $errores['nombre'] = 'El nombre es obligatorio.';
         }
-        if (trim($datos['codigo_barras'] ?? '') === '') {
-            $errores['codigo_barras'] = 'El código de barras es obligatorio.';
-        }
         if (!is_numeric($datos['precio_compra'] ?? '') || (float) $datos['precio_compra'] < 0) {
             $errores['precio_compra'] = 'El precio de compra debe ser un número válido.';
         }
@@ -156,7 +153,6 @@ class ProductoController extends Controller
 
         return [
             'nombre'        => trim($datos['nombre'] ?? ''),
-            'codigo_barras' => trim($datos['codigo_barras'] ?? ''),
             'descripcion'   => trim($datos['descripcion'] ?? ''),
             'categoria_id'  => $datos['categoria_id'] ?? null,
             'precio_compra' => $datos['precio_compra'] ?? 0,

@@ -1,17 +1,17 @@
 <?php
 
 require_once __DIR__ . '/../core/Controller.php';
-require_once __DIR__ . '/../models/Producto.php';
+require_once __DIR__ . '/../models/Articulo.php';
 require_once __DIR__ . '/../models/Categoria.php';
 
 class DashboardController extends Controller
 {
     public function index(): void
     {
-        $productoModel = new Producto();
+        $articuloModel = new Articulo();
         $categoriaModel = new Categoria();
 
-        $totalProductos = count($productoModel->obtenerTodos());
+        $totalArticulos = count($articuloModel->obtenerTodos());
         $totalCategorias = count($categoriaModel->obtenerTodas());
         
         // Mock data para ventas de los últimos 7 días
@@ -26,7 +26,7 @@ class DashboardController extends Controller
         ];
 
         $this->render('dashboard/index', [
-            'totalProductos' => $totalProductos,
+            'totalArticulos' => $totalArticulos,
             'totalCategorias' => $totalCategorias,
             'ventasDias' => $ventasDias
         ]);

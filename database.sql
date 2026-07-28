@@ -14,7 +14,7 @@ CREATE TABLE marcas (
     nombre VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE productos (
+CREATE TABLE articulos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(200) NOT NULL,
     descripcion TEXT NULL,
@@ -57,7 +57,7 @@ INSERT INTO marcas (nombre) VALUES
     ('Sudamericana'),
     ('Report');
 
-INSERT INTO productos (nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id) VALUES
+INSERT INTO articulos (nombre, descripcion, categoria_id, precio_compra, precio_venta, stock, marca_id) VALUES
     ('Cuaderno Espiral 100 hojas', 'Cuaderno tamaño carta cuadriculado', 6, 10.00, 15.00, 50, 1),
     ('Bolígrafo Azul', 'Caja de 50 bolígrafos trazo fino', 7, 45.00, 60.00, 10, 2),
     ('Espuma de Carnaval', 'Lata grande 500ml', 3, 8.00, 12.00, 100, 3),

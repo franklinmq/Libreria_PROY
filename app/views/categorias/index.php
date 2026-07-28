@@ -17,7 +17,7 @@
     </div>
 <?php elseif ($msg === 'error_eliminar'): ?>
     <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
-        <i class="bi bi-exclamation-circle me-1"></i> No se pudo eliminar la categoría. (Es posible que tenga productos o subcategorías asignados).
+        <i class="bi bi-exclamation-circle me-1"></i> No se pudo eliminar la categoría. (Es posible que tenga articulos o subcategorías asignados).
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 <?php endif; ?>

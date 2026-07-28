@@ -1,19 +1,19 @@
 <?php
 
 require_once __DIR__ . '/../core/Controller.php';
-require_once __DIR__ . '/../models/Producto.php';
+require_once __DIR__ . '/../models/Articulo.php';
 require_once __DIR__ . '/../models/Categoria.php';
 require_once __DIR__ . '/../models/Marca.php';
 
-class ProductoController extends Controller
+class ArticuloController extends Controller
 {
-    private Producto $productoModel;
+    private Articulo $articuloModel;
     private Categoria $categoriaModel;
     private Marca $marcaModel;
 
     public function __construct()
     {
-        $this->productoModel  = new Producto();
+        $this->articuloModel  = new Articulo();
         $this->categoriaModel = new Categoria();
         $this->marcaModel     = new Marca();
     }
@@ -21,14 +21,14 @@ class ProductoController extends Controller
     public function index(): void
     {
         $busqueda  = $_GET['q'] ?? '';
-        $productos = $this->productoModel->obtenerTodos($busqueda);
+        $articulos = $this->articuloModel->obtenerTodos($busqueda);
 
-        $this->render('productos/index', [
-            'productos'  => $productos,
+        $this->render('articulos/index', [
+            'articulos'  => $articulos,
             'busqueda'   => $busqueda,
-            'total'      => $this->productoModel->totalProductos(),
-            'valorInv'   => $this->productoModel->valorInventario(),
-            'stockBajo'  => $this->productoModel->stockBajo(),
+            'total'      => $this->articuloModel->totalArticulos(),
+            'valorInv'   => $this->articuloModel->valorInventario(),
+            'stockBajo'  => $this->articuloModel->stockBajo(),
             'categorias' => $this->categoriaModel->obtenerTodas(),
             'marcas'     => $this->marcaModel->obtenerTodas(),
             'errores'    => [],
@@ -37,10 +37,10 @@ class ProductoController extends Controller
         ]);
     }
 
-    /** GET /?action=producto-nuevo */
+    /** GET /?action=articulo-nuevo */
     public function crear(): void
     {
-        $this->render('productos/create', [
+        $this->render('articulos/create', [
             'categorias' => $this->categoriaModel->obtenerTodas(),
             'marcas'     => $this->marcaModel->obtenerTodas(),
             'errores'    => [],
@@ -54,14 +54,14 @@ class ProductoController extends Controller
 
         if (!empty($datos['errores'])) {
             $busqueda  = '';
-            $productos = $this->productoModel->obtenerTodos($busqueda);
+            $articulos = $this->articuloModel->obtenerTodos($busqueda);
 
-            $this->render('productos/index', [
-                'productos'  => $productos,
+            $this->render('articulos/index', [
+                'articulos'  => $articulos,
                 'busqueda'   => $busqueda,
-                'total'      => $this->productoModel->totalProductos(),
-                'valorInv'   => $this->productoModel->valorInventario(),
-                'stockBajo'  => $this->productoModel->stockBajo(),
+                'total'      => $this->articuloModel->totalArticulos(),
+                'valorInv'   => $this->articuloModel->valorInventario(),
+                'stockBajo'  => $this->articuloModel->stockBajo(),
                 'categorias' => $this->categoriaModel->obtenerTodas(),
                 'marcas'     => $this->marcaModel->obtenerTodas(),
                 'errores'    => $datos['errores'],
@@ -71,37 +71,37 @@ class ProductoController extends Controller
             return;
         }
 
-        $this->productoModel->crear($datos);
-        $this->redirect('index.php?action=productos&msg=creado');
+        $this->articuloModel->crear($datos);
+        $this->redirect('index.php?action=articulos&msg=creado');
     }
 
-    /** GET /?action=producto-editar&id=1 */
+    /** GET /?action=articulo-editar&id=1 */
     public function editar(): void
     {
         $id       = (int) ($_GET['id'] ?? 0);
-        $producto = $this->productoModel->obtenerPorId($id);
+        $articulo = $this->articuloModel->obtenerPorId($id);
 
-        if (!$producto) {
-            $this->redirect('index.php?action=productos');
+        if (!$articulo) {
+            $this->redirect('index.php?action=articulos');
         }
 
-        $this->render('productos/edit', [
-            'producto'   => $producto,
+        $this->render('articulos/edit', [
+            'articulo'   => $articulo,
             'categorias' => $this->categoriaModel->obtenerTodas(),
             'marcas'     => $this->marcaModel->obtenerTodas(),
             'errores'    => [],
         ]);
     }
 
-    /** POST /?action=producto-actualizar&id=1 */
+    /** POST /?action=articulo-actualizar&id=1 */
     public function actualizar(): void
     {
         $id    = (int) ($_GET['id'] ?? 0);
         $datos = $this->validar($_POST);
 
         if (!empty($datos['errores'])) {
-            $this->render('productos/edit', [
-                'producto'   => array_merge(['id' => $id], $_POST),
+            $this->render('articulos/edit', [
+                'articulo'   => array_merge(['id' => $id], $_POST),
                 'categorias' => $this->categoriaModel->obtenerTodas(),
                 'marcas'     => $this->marcaModel->obtenerTodas(),
                 'errores'    => $datos['errores'],
@@ -109,29 +109,29 @@ class ProductoController extends Controller
             return;
         }
 
-        $this->productoModel->actualizar($id, $datos);
-        $this->redirect('index.php?action=productos&msg=actualizado');
+        $this->articuloModel->actualizar($id, $datos);
+        $this->redirect('index.php?action=articulos&msg=actualizado');
     }
 
-    /** GET /?action=producto-ver&id=1 */
+    /** GET /?action=articulo-ver&id=1 */
     public function ver(): void
     {
         $id       = (int) ($_GET['id'] ?? 0);
-        $producto = $this->productoModel->obtenerPorId($id);
+        $articulo = $this->articuloModel->obtenerPorId($id);
 
-        if (!$producto) {
-            $this->redirect('index.php?action=productos');
+        if (!$articulo) {
+            $this->redirect('index.php?action=articulos');
         }
 
-        $this->render('productos/show', ['producto' => $producto]);
+        $this->render('articulos/show', ['articulo' => $articulo]);
     }
 
-    /** POST /?action=producto-eliminar&id=1 */
+    /** POST /?action=articulo-eliminar&id=1 */
     public function eliminar(): void
     {
         $id = (int) ($_GET['id'] ?? 0);
-        $this->productoModel->eliminar($id);
-        $this->redirect('index.php?action=productos&msg=eliminado');
+        $this->articuloModel->eliminar($id);
+        $this->redirect('index.php?action=articulos&msg=eliminado');
     }
 
     private function validar(array $datos): array

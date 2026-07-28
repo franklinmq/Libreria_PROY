@@ -6,15 +6,15 @@
 <!-- Tarjetas (Targets / Accesos directos) -->
 <div class="row g-4 mb-4">
     <div class="col-md-3">
-        <a href="index.php?action=productos" class="text-decoration-none">
+        <a href="index.php?action=articulos" class="text-decoration-none">
             <div class="card border-0 shadow-sm h-100" style="border-radius: 12px; transition: transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.1)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='';">
                 <div class="card-body d-flex align-items-center">
                     <div class="rounded-circle d-flex align-items-center justify-content-center text-white me-3" style="width: 50px; height: 50px; background-color: #3b82f6;">
                         <i class="bi bi-box-seam fs-4"></i>
                     </div>
                     <div>
-                        <h6 class="text-muted mb-1">Productos</h6>
-                        <h4 class="fw-bold mb-0 text-dark"><?= htmlspecialchars($totalProductos) ?></h4>
+                        <h6 class="text-muted mb-1">Articulos</h6>
+                        <h4 class="fw-bold mb-0 text-dark"><?= htmlspecialchars($totalArticulos) ?></h4>
                     </div>
                 </div>
             </div>

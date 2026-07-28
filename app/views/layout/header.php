@@ -18,7 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <div class="d-flex flex-row min-vh-100">
     <!-- Sidebar -->
     <aside class="app-sidebar d-flex flex-column flex-shrink-0 p-3 text-white">
-        <a href="index.php?action=productos" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none px-2 gap-2">
+        <a href="index.php?action=articulos" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none px-2 gap-2">
             <i class="bi bi-shop fs-3" style="color: var(--brand-accent);"></i>
             <span class="fs-5 fw-bold">Sistema <strong>Inventario</strong></span>
         </a>
@@ -30,8 +30,8 @@ if (session_status() === PHP_SESSION_NONE) {
                 </a>
             </li>
             <li class="nav-item">
-                <a href="index.php?action=productos" class="nav-link <?= ($_GET['action'] ?? '') === 'productos' ? 'active' : '' ?>" aria-current="page">
-                    <i class="bi bi-box-seam me-2"></i> Productos
+                <a href="index.php?action=articulos" class="nav-link <?= ($_GET['action'] ?? '') === 'articulos' ? 'active' : '' ?>" aria-current="page">
+                    <i class="bi bi-box-seam me-2"></i> Articulos
                 </a>
             </li>
             <li>

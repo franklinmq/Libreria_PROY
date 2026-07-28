@@ -1,12 +1,12 @@
 <?php
-// Variable $old o $producto según el contexto (crear/editar)
-$valores = $producto ?? $old ?? [];
+// Variable $old o $articulo según el contexto (crear/editar)
+$valores = $articulo ?? $old ?? [];
 $val = fn($campo) => htmlspecialchars($valores[$campo] ?? '');
 ?>
 
 <div class="row g-3">
     <div class="col-md-12">
-        <label class="form-label">Nombre del Producto <span class="text-danger">*</span></label>
+        <label class="form-label">Nombre del Articulo <span class="text-danger">*</span></label>
         <input type="text" name="nombre" value="<?= $val('nombre') ?>"
                class="form-control <?= isset($errores['nombre']) ? 'is-invalid' : '' ?>">
         <?php if (isset($errores['nombre'])): ?>

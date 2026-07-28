@@ -5,7 +5,7 @@
  * Todas las peticiones pasan por aquí y se enrutan según ?action=
  */
 
-require_once __DIR__ . '/../app/controllers/ProductoController.php';
+require_once __DIR__ . '/../app/controllers/ArticuloController.php';
 require_once __DIR__ . '/../app/controllers/CategoriaController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/MarcaController.php';
@@ -38,32 +38,32 @@ try {
             break;
 
         // ---- Productos ----
-        case 'productos':
-            (new ProductoController())->index();
+        case 'articulos':
+            (new ArticuloController())->index();
             break;
 
-        case 'producto-nuevo':
-            (new ProductoController())->crear();
+        case 'articulo-nuevo':
+            (new ArticuloController())->crear();
             break;
 
-        case 'producto-guardar':
-            (new ProductoController())->guardar();
+        case 'articulo-guardar':
+            (new ArticuloController())->guardar();
             break;
 
-        case 'producto-editar':
-            (new ProductoController())->editar();
+        case 'articulo-editar':
+            (new ArticuloController())->editar();
             break;
 
-        case 'producto-actualizar':
-            (new ProductoController())->actualizar();
+        case 'articulo-actualizar':
+            (new ArticuloController())->actualizar();
             break;
 
-        case 'producto-ver':
-            (new ProductoController())->ver();
+        case 'articulo-ver':
+            (new ArticuloController())->ver();
             break;
 
-        case 'producto-eliminar':
-            (new ProductoController())->eliminar();
+        case 'articulo-eliminar':
+            (new ArticuloController())->eliminar();
             break;
 
         // ---- Categorías ----

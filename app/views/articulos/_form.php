@@ -65,7 +65,7 @@ $val = fn($campo) => htmlspecialchars($valores[$campo] ?? '');
     </div>
 
     <div class="col-md-4">
-        <label class="form-label">Precio Compra (Bs./$) <span class="text-danger">*</span></label>
+        <label class="form-label">Precio Compra (Bs.) <span class="text-danger">*</span></label>
         <input type="number" step="0.01" min="0" name="precio_compra" value="<?= $val('precio_compra') ?>"
                class="form-control <?= isset($errores['precio_compra']) ? 'is-invalid' : '' ?>">
         <?php if (isset($errores['precio_compra'])): ?>
@@ -74,7 +74,7 @@ $val = fn($campo) => htmlspecialchars($valores[$campo] ?? '');
     </div>
     
     <div class="col-md-4">
-        <label class="form-label">Precio Venta (Bs./$) <span class="text-danger">*</span></label>
+        <label class="form-label">Precio Venta (Bs.) <span class="text-danger">*</span></label>
         <input type="number" step="0.01" min="0" name="precio_venta" value="<?= $val('precio_venta') ?>"
                class="form-control <?= isset($errores['precio_venta']) ? 'is-invalid' : '' ?>">
         <?php if (isset($errores['precio_venta'])): ?>

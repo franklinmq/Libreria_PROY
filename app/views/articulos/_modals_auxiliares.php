@@ -19,42 +19,7 @@
     </div>
 </div>
 
-<!-- Modal Categoría -->
-<div class="modal fade" id="modalCategoria" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form id="formCategoria">
-                <div class="modal-header">
-                    <h6 class="modal-title">Agregar Categoría</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre</label>
-                        <input type="text" name="nombre" class="form-control" placeholder="Nombre de la categoría" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Depende de (Subcategoría de)</label>
-                        <select name="parent_id" class="form-select">
-                            <option value="">-- Es Categoría Principal --</option>
-                            <?php
-                            $principales = $principales ?? [];
-                            if (!empty($principales)): ?>
-                                <?php foreach ($principales as $principal): ?>
-                                    <option value="<?= $principal['id'] ?>"><?= htmlspecialchars($principal['nombre']) ?></option>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<?php include __DIR__ . '/../categorias/_modal_categoria.php'; ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -85,9 +50,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Limpiar modal al abrir (en caso de usarlo desde aquí y no con abrirModalCreacion)
+    const modalCategoriaEl = document.getElementById('modalCategoria');
+    if (modalCategoriaEl) {
+        modalCategoriaEl.addEventListener('show.bs.modal', function () {
+            document.getElementById('formCategoria').reset();
+            if (typeof modalSubcats !== 'undefined') {
+                modalSubcats = [];
+                if (typeof renderModalSubcats === 'function') {
+                    renderModalSubcats();
+                }
+            }
+        });
+    }
+
     const formCategoria = document.getElementById('formCategoria');
     if (formCategoria) {
         formCategoria.addEventListener('submit', function(e) {
+            // Si el formCategoria no tiene un "action" definido u otra bandera, usamos AJAX
+            // Como usamos el mismo form, revisamos si tiene un action, o simplemente lo interceptamos
+            // Aquí, en "_modals_auxiliares", SIEMPRE queremos AJAX.
             e.preventDefault();
             const formData = new FormData(this);
             fetch('index.php?action=categoria-guardar-ajax', {
@@ -98,28 +80,30 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     const select = document.getElementById('categoria_id');
-                    let texto = data.nombre;
-                    let isPrincipal = !data.parent_id;
                     
-                    if (!isPrincipal) {
-                        texto = '\u00A0\u00A0\u00A0\u00A0\u21B3 ' + data.nombre;
-                    }
+                    // Añadir la categoría principal
+                    const mainOption = new Option(data.nombre, data.id, true, true);
+                    mainOption.className = 'fw-bold';
+                    select.add(mainOption);
                     
-                    const option = new Option(texto, data.id, true, true);
-                    if (isPrincipal) option.className = 'fw-bold';
-                    
-                    select.add(option);
-                    
-                    if (isPrincipal) {
-                        const selectModal = document.querySelector('#modalCategoria select[name="parent_id"]');
-                        if (selectModal) {
-                            selectModal.add(new Option(data.nombre, data.id));
-                        }
+                    // Añadir subcategorías si las hay
+                    if (data.subcategorias && data.subcategorias.length > 0) {
+                        data.subcategorias.forEach(sub => {
+                            const subText = '\u00A0\u00A0\u00A0\u00A0\u21B3 ' + sub.nombre;
+                            const subOption = new Option(subText, sub.id);
+                            select.add(subOption);
+                        });
                     }
                     
                     const modal = bootstrap.Modal.getInstance(document.getElementById('modalCategoria'));
                     modal.hide();
                     this.reset();
+                    if (typeof modalSubcats !== 'undefined') {
+                        modalSubcats = [];
+                        if (typeof renderModalSubcats === 'function') {
+                            renderModalSubcats();
+                        }
+                    }
                 } else {
                     alert(data.message);
                 }

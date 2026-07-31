@@ -34,7 +34,7 @@
                 <div class="stat-icon bg-success-subtle text-success"><i class="bi bi-cash-coin"></i></div>
                 <div>
                     <div class="text-muted small">Valor del inventario</div>
-                    <div class="fs-4 fw-bold">$<?= number_format((float) $valorInv, 2) ?></div>
+                    <div class="fs-4 fw-bold">Bs. <?= number_format((float) $valorInv, 2) ?></div>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
                                     <span class="text-muted">—</span>
                                 <?php endif; ?>
                             </td>
-                            <td class="text-end">$<?= number_format((float) $articulo['precio_venta'], 2) ?></td>
+                            <td class="text-end">Bs. <?= number_format((float) $articulo['precio_venta'], 2) ?></td>
                             <td class="text-center">
                                 <span class="badge <?= $articulo['stock'] <= 10 ? 'text-bg-warning' : 'text-bg-success' ?>">
                                     <?= (int) $articulo['stock'] ?>

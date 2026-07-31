@@ -22,10 +22,10 @@
                     <dd class="col-sm-8"><?= htmlspecialchars($articulo['categoria_nombre'] ?? '—') ?></dd>
 
                     <dt class="col-sm-4">Precio Compra</dt>
-                    <dd class="col-sm-8">$<?= number_format((float) $articulo['precio_compra'], 2) ?></dd>
+                    <dd class="col-sm-8">Bs. <?= number_format((float) $articulo['precio_compra'], 2) ?></dd>
                     
                     <dt class="col-sm-4">Precio Venta</dt>
-                    <dd class="col-sm-8">$<?= number_format((float) $articulo['precio_venta'], 2) ?></dd>
+                    <dd class="col-sm-8">Bs. <?= number_format((float) $articulo['precio_venta'], 2) ?></dd>
 
                     <dt class="col-sm-4">Stock disponible</dt>
                     <dd class="col-sm-8">

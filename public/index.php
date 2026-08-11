@@ -10,6 +10,7 @@ require_once __DIR__ . '/../app/controllers/CategoriaController.php';
 require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/MarcaController.php';
 require_once __DIR__ . '/../app/controllers/DashboardController.php';
+require_once __DIR__ . '/../app/controllers/CompraController.php';
 
 $action = $_GET['action'] ?? 'login'; // Defaults to login if no action is provided
 
@@ -64,6 +65,23 @@ try {
 
         case 'articulo-eliminar':
             (new ArticuloController())->eliminar();
+            break;
+
+        // ---- Compras ----
+        case 'compras':
+            (new CompraController())->index();
+            break;
+
+        case 'compra-nueva':
+            (new CompraController())->crear();
+            break;
+
+        case 'compra-guardar':
+            (new CompraController())->guardar();
+            break;
+
+        case 'compra-ver':
+            (new CompraController())->ver();
             break;
 
         // ---- Categorías ----

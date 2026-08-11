@@ -40,7 +40,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link">
+                <a href="index.php?action=compras" class="nav-link <?= strpos($_GET['action'] ?? '', 'compra') === 0 ? 'active' : '' ?>">
                     <i class="bi bi-cart-plus me-2"></i> Compras
                 </a>
             </li>

@@ -86,15 +86,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($articulos)): ?>
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                            No se encontraron articulos en el inventario.
-                        </td>
-                    </tr>
-                <?php else: ?>
-                    <?php foreach ($articulos as $articulo): ?>
+                <?php foreach ($articulos as $articulo): ?>
                         <tr>
                             <td class="fw-semibold"><?= htmlspecialchars($articulo['nombre']) ?></td>
                             <td><?= htmlspecialchars($articulo['marca_nombre'] ?? '') ?></td>
@@ -129,7 +121,6 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                <?php endif; ?>
             </tbody>
         </table>
     </div>

@@ -21,7 +21,17 @@
     $(document).ready(function() {
         $('.table-datatable').DataTable({
             "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                "url": "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json",
+                "emptyTable": `<div class="text-center text-muted py-5">
+                                  <i class="bi bi-inbox fs-1 d-block mb-3 text-secondary opacity-50"></i>
+                                  <h5 class="fw-semibold text-secondary">No hay registros</h5>
+                                  <p class="small mb-0">Aún no se han registrado elementos en esta sección.</p>
+                               </div>`,
+                "zeroRecords": `<div class="text-center text-muted py-5">
+                                  <i class="bi bi-search fs-1 d-block mb-3 text-secondary opacity-50"></i>
+                                  <h5 class="fw-semibold text-secondary">Sin resultados</h5>
+                                  <p class="small mb-0">No se encontró ninguna coincidencia con tu búsqueda.</p>
+                               </div>`
             },
             "pageLength": 10,
             "lengthChange": false,

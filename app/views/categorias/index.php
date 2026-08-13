@@ -22,8 +22,6 @@
     </div>
 <?php endif; ?>
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
         <div class="card shadow-sm border-0 rounded-3">
             <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
                 <h5 class="mb-0 fw-bold" style="color: var(--brand-primary);"><i class="bi bi-tags me-2"></i>Gestión de Categorías</h5>
@@ -112,12 +110,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (empty($categorias)): ?>
-                            <tr>
-                                <td colspan="2" class="text-center text-muted py-4">Aún no hay categorías registradas.</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($principales as $principal): ?>
+                        <?php foreach ($principales as $principal): ?>
                                 <?php
                                 $tieneSub = false;
                                 foreach ($subcategorias as $sub) {
@@ -174,13 +167,10 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-</div>
 
 <?php $modalCategoriaAction = "index.php?action=categoria-guardar"; ?>
 <?php include __DIR__ . '/_modal_categoria.php'; ?>

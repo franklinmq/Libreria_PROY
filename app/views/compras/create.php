@@ -41,24 +41,65 @@
                     <hr>
 
                     <!-- Buscador de Artículos -->
-                    <div class="row mb-3 align-items-end">
-                        <div class="col-md-6">
-                            <label class="form-label">Agregar Artículo</label>
-                            <select id="selectArticulo" class="form-select">
-                                <option value="">-- Seleccione un artículo --</option>
-                                <?php foreach ($articulos as $art): ?>
-                                    <option value="<?= $art['id'] ?>" 
-                                            data-nombre="<?= htmlspecialchars($art['nombre']) ?>" 
-                                            data-precio="<?= $art['precio_compra'] ?>">
-                                        <?= htmlspecialchars($art['nombre']) ?> (Stock: <?= $art['stock'] ?>)
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                    <div class="mb-4">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="buscadorArticulos" class="form-control form-control-lg border-start-0 ps-0" style="box-shadow: none;" placeholder="Buscar por nombre, categoría, modelo...">
                         </div>
-                        <div class="col-md-3">
-                            <button type="button" id="btnAgregarArticulo" class="btn btn-success w-100">
-                                <i class="bi bi-plus-lg"></i> Agregar a la lista
-                            </button>
+                        <div class="text-muted small mb-3">
+                            <i class="bi bi-box"></i> <span id="countArticulos"><?= count($articulos) ?></span> productos registrados
+                        </div>
+                        
+                        <div class="table-responsive border rounded bg-white" style="max-height: 400px; overflow-y: auto;">
+                            <table class="table table-hover align-middle mb-0" id="tablaSeleccionArticulos">
+                                <thead class="table-light sticky-top shadow-sm">
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Categoría</th>
+                                        <th>Stock</th>
+                                        <th class="text-end pe-4">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($articulos as $art): ?>
+                                        <tr class="articulo-item">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <?php if (!empty($art['imagen'])): ?>
+                                                        <img src="public/uploads/<?= htmlspecialchars($art['imagen']) ?>" alt="<?= htmlspecialchars($art['nombre']) ?>" style="width: 48px; height: 48px; object-fit: contain;" class="rounded bg-white p-1 border me-3">
+                                                    <?php else: ?>
+                                                        <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center text-secondary" style="width: 48px; height: 48px;">
+                                                            <i class="bi bi-image fs-4"></i>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    <div>
+                                                        <h6 class="mb-0 fw-bold articulo-nombre text-dark"><?= htmlspecialchars($art['nombre']) ?></h6>
+                                                        <small class="text-muted articulo-descripcion"><?= htmlspecialchars($art['descripcion']) ?></small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="articulo-categoria">
+                                                <span class="badge bg-light text-dark border fw-normal"><?= htmlspecialchars($art['categoria_nombre'] ?? 'Sin categoría') ?></span>
+                                            </td>
+                                            <td>
+                                                <span class="fw-bold text-danger"><?= $art['stock'] ?></span>
+                                            </td>
+                                            <td class="text-end pe-3">
+                                                <button type="button" class="btn btn-sm text-white btn-agregar-articulo" 
+                                                        style="background-color: #d87b5d; border-radius: 6px; padding: 4px 12px;"
+                                                        data-id="<?= $art['id'] ?>"
+                                                        data-nombre="<?= htmlspecialchars($art['nombre']) ?>"
+                                                        data-precio="<?= $art['precio_compra'] ?>">
+                                                    <i class="bi bi-plus-lg"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <tr id="noResultsRow" style="display: none;">
+                                        <td colspan="4" class="text-center py-4 text-muted">No se encontraron productos</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
@@ -96,76 +137,123 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const selectArticulo = document.getElementById('selectArticulo');
-    const btnAgregarArticulo = document.getElementById('btnAgregarArticulo');
+    const buscadorArticulos = document.getElementById('buscadorArticulos');
+    const articulosItems = document.querySelectorAll('.articulo-item');
+    const noResultsRow = document.getElementById('noResultsRow');
+    const countArticulos = document.getElementById('countArticulos');
+    
     const tablaDetalles = document.getElementById('tablaDetalles').querySelector('tbody');
     const emptyState = document.getElementById('empty-state');
     const lblTotal = document.getElementById('lblTotal');
     const btnGuardarCompra = document.getElementById('btnGuardarCompra');
 
-    btnAgregarArticulo.addEventListener('click', function() {
-        const option = selectArticulo.options[selectArticulo.selectedIndex];
-        if (!option.value) return;
-
-        const id = option.value;
-        const nombre = option.getAttribute('data-nombre');
-        const precio = parseFloat(option.getAttribute('data-precio')).toFixed(2);
-
-        // Verificar si ya existe en la tabla
-        if (document.querySelector(`input[name="articulos[]"][value="${id}"]`)) {
-            alert('El artículo ya está en la lista.');
-            return;
-        }
-
-        emptyState.style.display = 'none';
-        btnGuardarCompra.disabled = false;
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>
-                ${nombre}
-                <input type="hidden" name="articulos[]" value="${id}">
-            </td>
-            <td>
-                <input type="number" name="cantidades[]" class="form-control form-control-sm input-cantidad" value="1" min="1" required>
-            </td>
-            <td>
-                <input type="number" name="precios[]" class="form-control form-control-sm input-precio" value="${precio}" min="0" step="0.01" required>
-            </td>
-            <td class="text-end subtotal-celda fw-semibold">
-                ${precio}
-            </td>
-            <td class="text-center">
-                <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </td>
-        `;
-
-        tablaDetalles.appendChild(tr);
-
-        // Limpiar select
-        selectArticulo.value = "";
-
-        // Eventos
-        tr.querySelector('.btn-eliminar').addEventListener('click', function() {
-            tr.remove();
-            calcularTotal();
-            if (tablaDetalles.children.length === 0) {
-                emptyState.style.display = 'block';
-                btnGuardarCompra.disabled = true;
+    // Búsqueda de artículos
+    if (buscadorArticulos) {
+        buscadorArticulos.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            let count = 0;
+            
+            articulosItems.forEach(item => {
+                const nombre = item.querySelector('.articulo-nombre').textContent.toLowerCase();
+                const desc = item.querySelector('.articulo-descripcion').textContent.toLowerCase();
+                const cat = item.querySelector('.articulo-categoria').textContent.toLowerCase();
+                
+                if (nombre.includes(query) || desc.includes(query) || cat.includes(query)) {
+                    item.style.display = '';
+                    count++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            if (countArticulos) countArticulos.textContent = count;
+            if (noResultsRow) {
+                noResultsRow.style.display = count === 0 ? '' : 'none';
             }
         });
+    }
 
-        tr.querySelector('.input-cantidad').addEventListener('input', function() {
-            actualizarSubtotal(tr);
+    // Agregar artículo a la compra
+    document.querySelectorAll('.btn-agregar-articulo').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const id = this.getAttribute('data-id');
+            const nombre = this.getAttribute('data-nombre');
+            const precio = parseFloat(this.getAttribute('data-precio')).toFixed(2);
+
+            // Verificar si ya existe en la tabla
+            const existingInput = document.querySelector(`input[name="articulos[]"][value="${id}"]`);
+            if (existingInput) {
+                const tr = existingInput.closest('tr');
+                const inputCantidad = tr.querySelector('.input-cantidad');
+                inputCantidad.value = parseInt(inputCantidad.value) + 1;
+                
+                // Disparar evento para actualizar el subtotal y total
+                inputCantidad.dispatchEvent(new Event('input'));
+                
+                // Feedback visual
+                const iconoOriginal = this.innerHTML;
+                this.innerHTML = '<i class="bi bi-check-lg"></i>';
+                setTimeout(() => {
+                    this.innerHTML = iconoOriginal;
+                }, 1000);
+                
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            btnGuardarCompra.disabled = false;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>
+                    ${nombre}
+                    <input type="hidden" name="articulos[]" value="${id}">
+                </td>
+                <td>
+                    <input type="number" name="cantidades[]" class="form-control form-control-sm input-cantidad" value="1" min="1" required>
+                </td>
+                <td>
+                    <input type="number" name="precios[]" class="form-control form-control-sm input-precio" value="${precio}" min="0" step="0.01" required>
+                </td>
+                <td class="text-end subtotal-celda fw-semibold">
+                    ${precio}
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-eliminar">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                </td>
+            `;
+
+            tablaDetalles.appendChild(tr);
+
+            // Eventos de la nueva fila
+            tr.querySelector('.btn-eliminar').addEventListener('click', function() {
+                tr.remove();
+                calcularTotal();
+                if (tablaDetalles.children.length === 0) {
+                    emptyState.style.display = 'block';
+                    btnGuardarCompra.disabled = true;
+                }
+            });
+
+            tr.querySelector('.input-cantidad').addEventListener('input', function() {
+                actualizarSubtotal(tr);
+            });
+
+            tr.querySelector('.input-precio').addEventListener('input', function() {
+                actualizarSubtotal(tr);
+            });
+
+            calcularTotal();
+            
+            // Feedback visual
+            const iconoOriginal = this.innerHTML;
+            this.innerHTML = '<i class="bi bi-check-lg"></i>';
+            setTimeout(() => {
+                this.innerHTML = iconoOriginal;
+            }, 1000);
         });
-
-        tr.querySelector('.input-precio').addEventListener('input', function() {
-            actualizarSubtotal(tr);
-        });
-
-        calcularTotal();
     });
 
     function actualizarSubtotal(tr) {

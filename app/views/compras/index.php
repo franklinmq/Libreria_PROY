@@ -24,7 +24,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0 table-datatable">
             <thead class="table-light">
                 <tr>
                     <th>ID Compra</th>
@@ -36,15 +36,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($compras)): ?>
-                    <tr>
-                        <td colspan="6" class="text-center text-muted py-4">
-                            <i class="bi bi-inbox fs-3 d-block mb-2"></i>
-                            No hay compras registradas.
-                        </td>
-                    </tr>
-                <?php else: ?>
-                    <?php foreach ($compras as $compra): ?>
+                <?php foreach ($compras as $compra): ?>
                         <tr>
                             <td class="fw-semibold">#<?= str_pad($compra['id'], 5, '0', STR_PAD_LEFT) ?></td>
                             <td><?= date('d/m/Y H:i', strtotime($compra['fecha_compra'])) ?></td>
@@ -59,7 +51,6 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
-                <?php endif; ?>
             </tbody>
         </table>
     </div>

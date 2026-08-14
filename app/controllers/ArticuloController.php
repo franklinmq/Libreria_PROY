@@ -70,6 +70,8 @@ class ArticuloController extends Controller
             ]);
             return;
         }
+        
+        $datos['imagen'] = $this->procesarImagen();
 
         $this->articuloModel->crear($datos);
         $this->redirect('index.php?action=articulos&msg=creado');
@@ -107,6 +109,11 @@ class ArticuloController extends Controller
                 'errores'    => $datos['errores'],
             ]);
             return;
+        }
+
+        $imagen = $this->procesarImagen();
+        if ($imagen) {
+            $datos['imagen'] = $imagen;
         }
 
         $this->articuloModel->actualizar($id, $datos);
@@ -161,5 +168,27 @@ class ArticuloController extends Controller
             'marca_id'      => $datos['marca_id'] ?? null,
             'errores'       => $errores,
         ];
+    }
+
+    private function procesarImagen(): ?string
+    {
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES['imagen']['tmp_name'];
+            $name = basename($_FILES['imagen']['name']);
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+            
+            if (in_array($ext, $allowed)) {
+                $newName = uniqid('prod_') . '.' . $ext;
+                $uploadDir = __DIR__ . '/../../public/uploads/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                if (move_uploaded_file($tmp_name, $uploadDir . $newName)) {
+                    return $newName;
+                }
+            }
+        }
+        return null;
     }
 }

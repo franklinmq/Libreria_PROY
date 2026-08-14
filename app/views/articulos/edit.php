@@ -5,7 +5,7 @@
                 <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Editar articulo</h5>
             </div>
             <div class="card-body">
-                <form method="post" action="index.php?action=articulo-actualizar&id=<?= $articulo['id'] ?>" novalidate>
+                <form method="post" action="index.php?action=articulo-actualizar&id=<?= $articulo['id'] ?>" enctype="multipart/form-data" novalidate>
                     <?php include __DIR__ . '/_form.php'; ?>
 
                     <div class="d-flex justify-content-end gap-2 mt-4">

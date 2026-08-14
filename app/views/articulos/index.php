@@ -77,6 +77,7 @@
         <table class="table table-hover align-middle mb-0 table-datatable">
             <thead class="table-light">
                 <tr>
+                    <th style="width: 60px;">Foto</th>
                     <th>Nombre</th>
                     <th>Marca</th>
                     <th>Categoría</th>
@@ -88,6 +89,15 @@
             <tbody>
                 <?php foreach ($articulos as $articulo): ?>
                         <tr>
+                            <td>
+                                <?php if (!empty($articulo['imagen'])): ?>
+                                    <img src="uploads/<?= htmlspecialchars($articulo['imagen']) ?>" alt="Foto" style="width: 40px; height: 40px; object-fit: contain; cursor: pointer;" class="rounded border bg-white p-1" data-bs-toggle="modal" data-bs-target="#modalPreview" data-img-src="uploads/<?= htmlspecialchars($articulo['imagen']) ?>" data-img-title="<?= htmlspecialchars($articulo['nombre']) ?>" title="Clic para ver previa">
+                                <?php else: ?>
+                                    <div class="bg-light border rounded d-flex align-items-center justify-content-center text-secondary" style="width: 40px; height: 40px;">
+                                        <i class="bi bi-image"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
                             <td class="fw-semibold"><?= htmlspecialchars($articulo['nombre']) ?></td>
                             <td><?= htmlspecialchars($articulo['marca_nombre'] ?? '') ?></td>
                             <td>
@@ -130,7 +140,7 @@
 <div class="modal fade" id="modalNuevoArticulo" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="index.php?action=articulo-guardar" method="post" novalidate>
+            <form action="index.php?action=articulo-guardar" method="post" enctype="multipart/form-data" novalidate>
                 <div class="modal-header">
                     <h5 class="modal-title"><i class="bi bi-plus-circle me-2"></i>Agregar nuevo articulo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

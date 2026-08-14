@@ -69,19 +69,16 @@ class Articulo
 
     public function actualizar(int $id, array $datos): bool
     {
-        $stmt = $this->db->prepare(
-            "UPDATE articulos SET
+        $sql = "UPDATE articulos SET
                 nombre = :nombre,
                 descripcion = :descripcion,
                 categoria_id = :categoria_id,
                 precio_compra = :precio_compra,
                 precio_venta = :precio_venta,
                 stock = :stock,
-                marca_id = :marca_id
-             WHERE id = :id"
-        );
-
-        return $stmt->execute([
+                marca_id = :marca_id";
+                
+        $params = [
             ':nombre'        => $datos['nombre'],
             ':descripcion'   => $datos['descripcion'],
             ':categoria_id'  => $datos['categoria_id'],
@@ -90,7 +87,17 @@ class Articulo
             ':stock'         => $datos['stock'],
             ':marca_id'      => $datos['marca_id'],
             ':id'            => $id,
-        ]);
+        ];
+        
+        if (array_key_exists('imagen', $datos)) {
+            $sql .= ", imagen = :imagen";
+            $params[':imagen'] = $datos['imagen'];
+        }
+        
+        $sql .= " WHERE id = :id";
+        
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
     }
 
     public function eliminar(int $id): bool

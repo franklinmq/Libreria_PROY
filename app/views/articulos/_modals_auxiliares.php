@@ -21,8 +21,38 @@
 
 <?php include __DIR__ . '/../categorias/_modal_categoria.php'; ?>
 
+<!-- Modal Vista Previa Imagen -->
+<div class="modal fade" id="modalPreview" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modalPreviewTitle">Vista previa</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center p-3">
+                <img src="" id="modalPreviewImage" class="img-fluid rounded" alt="Vista previa" style="max-height: 60vh; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const modalPreviewEl = document.getElementById('modalPreview');
+    if (modalPreviewEl) {
+        modalPreviewEl.addEventListener('show.bs.modal', function (event) {
+            const trigger = event.relatedTarget;
+            const imgSrc = trigger.getAttribute('data-img-src');
+            const imgTitle = trigger.getAttribute('data-img-title');
+            
+            const modalImg = modalPreviewEl.querySelector('#modalPreviewImage');
+            const modalTitle = modalPreviewEl.querySelector('#modalPreviewTitle');
+            
+            modalImg.src = imgSrc;
+            if (imgTitle) modalTitle.textContent = imgTitle;
+        });
+    }
+
     const formMarca = document.getElementById('formMarca');
     if (formMarca) {
         formMarca.addEventListener('submit', function(e) {

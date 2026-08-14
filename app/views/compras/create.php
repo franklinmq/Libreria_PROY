@@ -66,7 +66,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <?php if (!empty($art['imagen'])): ?>
-                                                        <img src="public/uploads/<?= htmlspecialchars($art['imagen']) ?>" alt="<?= htmlspecialchars($art['nombre']) ?>" style="width: 48px; height: 48px; object-fit: contain;" class="rounded bg-white p-1 border me-3">
+                                                        <img src="uploads/<?= htmlspecialchars($art['imagen']) ?>" alt="<?= htmlspecialchars($art['nombre']) ?>" style="width: 48px; height: 48px; object-fit: contain;" class="rounded bg-white p-1 border me-3">
                                                     <?php else: ?>
                                                         <div class="bg-light border rounded me-3 d-flex align-items-center justify-content-center text-secondary" style="width: 48px; height: 48px;">
                                                             <i class="bi bi-image fs-4"></i>

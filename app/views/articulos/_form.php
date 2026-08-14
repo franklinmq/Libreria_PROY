@@ -90,4 +90,15 @@ $val = fn($campo) => htmlspecialchars($valores[$campo] ?? '');
             <div class="invalid-feedback"><?= $errores['stock'] ?></div>
         <?php endif; ?>
     </div>
+
+    <div class="col-md-12">
+        <label class="form-label">Foto del Producto (opcional)</label>
+        <input type="file" name="imagen" class="form-control" accept="image/*">
+        <?php if (!empty($valores['imagen'])): ?>
+            <div class="mt-2">
+                <small class="text-muted d-block mb-1">Imagen actual:</small>
+                <img src="uploads/<?= htmlspecialchars($valores['imagen']) ?>" alt="Foto" style="max-height: 100px;" class="rounded border">
+            </div>
+        <?php endif; ?>
+    </div>
 </div>

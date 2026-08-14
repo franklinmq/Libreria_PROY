@@ -5,7 +5,7 @@
                 <h5 class="mb-0"><i class="bi bi-plus-circle me-2"></i>Agregar nuevo articulo</h5>
             </div>
             <div class="card-body">
-                <form method="post" action="index.php?action=articulo-guardar" novalidate>
+                <form method="post" action="index.php?action=articulo-guardar" enctype="multipart/form-data" novalidate>
                     <?php include __DIR__ . '/_form.php'; ?>
 
                     <div class="d-flex justify-content-end gap-2 mt-4">

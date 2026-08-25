@@ -39,7 +39,7 @@ class Compra
 
         // Obtener los detalles
         $stmtDetalle = $this->db->prepare(
-            "SELECT d.*, a.nombre AS articulo_nombre, a.codigo AS articulo_codigo
+            "SELECT d.*, a.nombre AS articulo_nombre
              FROM detalle_compras d
              LEFT JOIN articulos a ON d.articulo_id = a.id
              WHERE d.compra_id = :compra_id"

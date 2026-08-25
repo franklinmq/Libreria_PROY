@@ -33,8 +33,8 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="col-md-6 d-flex align-items-end justify-content-end">
-                            <h4 class="mb-0">Total: <span id="lblTotal" class="text-success fw-bold">Bs. 0.00</span></h4>
+                        <div class="col-md-6 text-end">
+                            <!-- El total se mostrará en la parte inferior de la tabla -->
                         </div>
                     </div>
 
@@ -118,6 +118,13 @@
                             <tbody>
                                 <!-- Filas dinámicas aquí -->
                             </tbody>
+                            <tfoot class="table-light">
+                                <tr>
+                                    <td colspan="3" class="text-end fw-bold fs-5 align-middle">Total de la Compra:</td>
+                                    <td class="fw-bold fs-5 text-success align-middle"><span id="lblTotal">Bs. 0.00</span></td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
                         </table>
                         <div id="empty-state" class="text-center text-muted py-3">
                             No hay artículos agregados aún.

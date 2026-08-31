@@ -11,6 +11,7 @@ require_once __DIR__ . '/../app/controllers/AuthController.php';
 require_once __DIR__ . '/../app/controllers/MarcaController.php';
 require_once __DIR__ . '/../app/controllers/DashboardController.php';
 require_once __DIR__ . '/../app/controllers/CompraController.php';
+require_once __DIR__ . '/../app/controllers/VentaController.php';
 
 $action = $_GET['action'] ?? 'login'; // Defaults to login if no action is provided
 
@@ -82,6 +83,23 @@ try {
 
         case 'compra-ver':
             (new CompraController())->ver();
+            break;
+
+        // ---- Ventas ----
+        case 'ventas':
+            (new VentaController())->index();
+            break;
+
+        case 'venta-nueva':
+            (new VentaController())->crear();
+            break;
+
+        case 'venta-guardar':
+            (new VentaController())->guardar();
+            break;
+
+        case 'venta-ver':
+            (new VentaController())->ver();
             break;
 
         // ---- Categorías ----

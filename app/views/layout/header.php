@@ -45,7 +45,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link">
+                <a href="index.php?action=ventas" class="nav-link <?= strpos($_GET['action'] ?? '', 'venta') === 0 ? 'active' : '' ?>">
                     <i class="bi bi-cash-stack me-2"></i> Ventas
                 </a>
             </li>

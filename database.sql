@@ -63,3 +63,22 @@ INSERT INTO articulos (nombre, descripcion, categoria_id, precio_compra, precio_
     ('Espuma de Carnaval', 'Lata grande 500ml', 3, 8.00, 12.00, 100, 3),
     ('Cien años de soledad', 'Libro edición especial', 4, 150.00, 220.00, 5, 4),
     ('Papel Bond Resma', 'Resma de 500 hojas tamaño carta', 2, 30.00, 40.00, 20, 5);
+
+CREATE TABLE ventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_nombre VARCHAR(150) NULL DEFAULT 'Consumidor Final',
+    total DECIMAL(10,2) NOT NULL DEFAULT 0,
+    descuento DECIMAL(10,2) NOT NULL DEFAULT 0,
+    fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE detalle_ventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    venta_id INT NOT NULL,
+    articulo_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (venta_id) REFERENCES ventas(id) ON DELETE CASCADE,
+    FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
+);

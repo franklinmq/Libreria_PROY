@@ -82,3 +82,39 @@ CREATE TABLE detalle_ventas (
     FOREIGN KEY (venta_id) REFERENCES ventas(id) ON DELETE CASCADE,
     FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
 );
+
+CREATE TABLE proveedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL,
+    contacto VARCHAR(100) NULL,
+    telefono VARCHAR(50) NULL,
+    email VARCHAR(150) NULL,
+    direccion VARCHAR(255) NULL,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE compras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    proveedor_id INT NULL,
+    total DECIMAL(10,2) NOT NULL DEFAULT 0,
+    fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (proveedor_id) REFERENCES proveedores(id) ON DELETE SET NULL
+);
+
+CREATE TABLE detalle_compras (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    compra_id INT NOT NULL,
+    articulo_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (compra_id) REFERENCES compras(id) ON DELETE CASCADE,
+    FOREIGN KEY (articulo_id) REFERENCES articulos(id) ON DELETE CASCADE
+);
+
+-- Proveedores de ejemplo
+INSERT INTO proveedores (nombre, contacto, telefono, email, direccion) VALUES
+    ('Distribuidora Escolar S.R.L.', 'Carlos Mendoza', '78945612', 'ventas@distribuidoraescolar.com', 'Av. América #1234'),
+    ('Comercial Papelera Central', 'María Fernández', '71234567', 'contacto@papeleracentral.bo', 'Calle Comercio #567'),
+    ('Importadora Gráfica Sud', 'Roberto Gómez', '75612345', 'rgomez@graficasud.com', 'Zona Industrial #89');
+

@@ -50,7 +50,7 @@ if (session_status() === PHP_SESSION_NONE) {
                 </a>
             </li>
             <li>
-                <a href="#" class="nav-link">
+                <a href="index.php?action=reportes" class="nav-link <?= strpos($_GET['action'] ?? '', 'reporte') === 0 ? 'active' : '' ?>">
                     <i class="bi bi-bar-chart me-2"></i> Reportes
                 </a>
             </li>

@@ -12,6 +12,7 @@ require_once __DIR__ . '/../app/controllers/MarcaController.php';
 require_once __DIR__ . '/../app/controllers/DashboardController.php';
 require_once __DIR__ . '/../app/controllers/CompraController.php';
 require_once __DIR__ . '/../app/controllers/VentaController.php';
+require_once __DIR__ . '/../app/controllers/ReporteController.php';
 
 $action = $_GET['action'] ?? 'login'; // Defaults to login if no action is provided
 
@@ -100,6 +101,19 @@ try {
 
         case 'venta-ver':
             (new VentaController())->ver();
+            break;
+
+        // ---- Reportes y Exportaciones ----
+        case 'reportes':
+            (new ReporteController())->index();
+            break;
+
+        case 'reporte-exportar-excel':
+            (new ReporteController())->exportarExcel();
+            break;
+
+        case 'reporte-exportar-pdf':
+            (new ReporteController())->exportarPdf();
             break;
 
         // ---- Categorías ----

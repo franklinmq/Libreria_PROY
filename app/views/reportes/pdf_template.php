@@ -64,6 +64,27 @@
             padding: 8px 10px;
         }
 
+        .kpi-box {
+            background: #f1f5f9;
+            border-radius: 6px;
+            padding: 12px;
+            border-left: 4px solid #1164CF;
+            margin-bottom: 15px;
+        }
+
+        .kpi-title {
+            font-size: 11px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .kpi-val {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
 
         @media print {
             body {
@@ -118,24 +139,36 @@
 
 <div class="report-sheet" id="reportContent">
     <!-- Encabezado Corporativo -->
-    <div class="report-header d-flex justify-content-between align-items-start">
-        <div>
-            <h4 class="fw-bold mb-0 text-primary" style="color: #123B78 !important;">LIBRERÍA Y PAPELERÍA</h4>
-            <div class="text-muted small">Sistema de Control de Inventario, Compras y Ventas</div>
-            <div class="text-muted small mt-1">
-                <strong>Reporte:</strong> INFORME OFICIAL DE <?= strtoupper($tipo) ?>
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-4" style="border-bottom: 2px solid #123B78; padding-bottom: 15px;">
+        <!-- Izquierda: Logo -->
+        <div style="width: 30%; text-align: left;">
+            <!-- Ajusta la ruta del logo si es diferente -->
+            <img src="assets/img/logo.png" alt="Logo" style="max-height: 80px;">
         </div>
-        <div class="text-end small">
-            <div><strong>Fecha Emisión:</strong> <?= date('d/m/Y H:i') ?></div>
-            <div><strong>Generado por:</strong> <?= htmlspecialchars($_SESSION['user_name'] ?? 'Administrador') ?></div>
+        
+        <!-- Centro: Nombre de la Empresa -->
+        <div style="width: 40%; text-align: center;">
+            <h2 class="fw-bold mb-0" style="color: #123B78 !important; font-size: 26px; letter-spacing: 1px;">LIBRERÍA F & N</h2>
+        </div>
+        
+        <!-- Derecha: Datos de Emisión -->
+        <div style="width: 30%; text-align: right; font-size: 13px; color: #333;">
+            <div style="margin-bottom: 8px;">
+                Fecha de Emision: <span style="display: inline-block; min-width: 80px; text-align: center;"><?= date('d/m/Y') ?></span>
+            </div>
             <div>
-                <strong>Periodo:</strong> 
-                <?= !empty($filtros['fecha_desde']) ? date('d/m/Y', strtotime($filtros['fecha_desde'])) : 'Inicio' ?> 
-                al 
-                <?= !empty($filtros['fecha_hasta']) ? date('d/m/Y', strtotime($filtros['fecha_hasta'])) : date('d/m/Y') ?>
+                Periodo: <span style="display: inline-block; min-width: 120px; text-align: center;">
+                    <?= !empty($filtros['fecha_desde']) ? date('d/m/Y', strtotime($filtros['fecha_desde'])) : 'Inicio' ?> - <?= !empty($filtros['fecha_hasta']) ? date('d/m/Y', strtotime($filtros['fecha_hasta'])) : date('d/m/Y') ?>
+                </span>
             </div>
         </div>
+    </div>
+
+    <!-- Título del Reporte -->
+    <div class="text-center" style="margin-bottom: 30px;">
+        <h4 style="text-transform: uppercase; color: #333 !important; font-weight: normal; font-size: 16px; letter-spacing: 1px;">
+            REPORTE DE <?= strtoupper($tipo) ?>
+        </h4>
     </div>
 
     <!-- ============================================== -->
@@ -143,26 +176,6 @@
     <!-- ============================================== -->
 
     <?php if ($tipo === 'ventas'): ?>
-        <!-- Resumen en Tabla -->
-        <table class="table-custom mb-3">
-            <thead>
-                <tr>
-                    <th class="text-center">Total Ventas</th>
-                    <th class="text-center">Total Recaudado</th>
-                    <th class="text-center">Unidades Vendidas</th>
-                    <th class="text-center">Ticket Promedio</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center fw-bold"><?= (int)($resumen['total_operaciones'] ?? 0) ?></td>
-                    <td class="text-center fw-bold">Bs. <?= number_format((float)($resumen['total_ingresos'] ?? 0), 2) ?></td>
-                    <td class="text-center fw-bold"><?= (int)($resumen['total_unidades'] ?? 0) ?></td>
-                    <td class="text-center fw-bold">Bs. <?= number_format((float)($resumen['ticket_promedio'] ?? 0), 2) ?></td>
-                </tr>
-            </tbody>
-        </table>
-
         <!-- Tabla Detallada -->
         <table class="table-custom">
             <thead>
@@ -204,80 +217,64 @@
         </table>
 
     <?php elseif ($tipo === 'compras'): ?>
-        <!-- Resumen en Tabla -->
-        <table class="table-custom mb-3">
-            <thead>
-                <tr>
-                    <th class="text-center">Compras Realizadas</th>
-                    <th class="text-center">Total Invertido</th>
-                    <th class="text-center">Artículos Adquiridos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center fw-bold"><?= (int)($resumen['total_operaciones'] ?? 0) ?></td>
-                    <td class="text-center fw-bold">Bs. <?= number_format((float)($resumen['total_egresos'] ?? 0), 2) ?></td>
-                    <td class="text-center fw-bold"><?= (int)($resumen['total_unidades'] ?? 0) ?></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="table-custom">
-            <thead>
-                <tr>
-                    <th style="width: 80px;" class="text-center">N° Compra</th>
-                    <th style="width: 140px;">Fecha y Hora</th>
-                    <th>Proveedor</th>
-                    <th style="width: 120px;" class="text-center">Artículos</th>
-                    <th style="width: 140px;" class="text-end">Total Invertido (Bs.)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $sumTotal = 0; $sumArts = 0;
-                foreach ($datos as $c): 
-                    $sumTotal += (float)$c['total'];
-                    $sumArts += (int)$c['total_articulos'];
-                ?>
-                    <tr>
-                        <td class="text-center fw-bold">#<?= str_pad($c['id'], 5, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= date('d/m/Y H:i', strtotime($c['fecha_compra'])) ?></td>
-                        <td><?= htmlspecialchars($c['proveedor_nombre'] ?? 'Sin Proveedor') ?></td>
-                        <td class="text-center"><?= (int)$c['total_articulos'] ?></td>
-                        <td class="text-end fw-bold">Bs. <?= number_format((float)$c['total'], 2) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3" class="text-end">TOTALES GENERALES:</td>
-                    <td class="text-center"><?= $sumArts ?></td>
-                    <td class="text-end text-primary fw-bold">Bs. <?= number_format($sumTotal, 2) ?></td>
-                </tr>
-            </tfoot>
-        </table>
+        <?php 
+        $sumTotalGeneral = 0; $sumArtsGeneral = 0;
+        if (empty($datos)): ?>
+            <table class="table-custom">
+                <tbody><tr><td class="text-center py-4">No hay compras en el periodo seleccionado.</td></tr></tbody>
+            </table>
+        <?php else: ?>
+            <?php foreach ($datos as $dia => $items): ?>
+                <div class="text-center mt-4 mb-3">
+                    <span style="font-size:15px; color:#333;">Fecha: <?= date('d/m/Y', strtotime($dia)) ?></span>
+                </div>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;" class="text-center">hora</th>
+                            <th>Proveedor</th>
+                            <th>Articulo</th>
+                            <th style="width: 100px;" class="text-end">P/Unit</th>
+                            <th style="width: 80px;" class="text-center">Cantidad</th>
+                            <th style="width: 100px;" class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $totalDia = 0; $artsDia = 0;
+                        foreach ($items as $c): 
+                            $totalDia += (float)$c['subtotal'];
+                            $artsDia += (int)$c['cantidad'];
+                            $sumTotalGeneral += (float)$c['subtotal'];
+                            $sumArtsGeneral += (int)$c['cantidad'];
+                        ?>
+                            <tr>
+                                <td class="text-center"><?= date('H:i', strtotime($c['fecha_hora'])) ?></td>
+                                <td><?= htmlspecialchars($c['proveedor_nombre'] ?? 'Sin Proveedor') ?></td>
+                                <td><?= htmlspecialchars($c['articulo_nombre']) ?></td>
+                                <td class="text-end">Bs. <?= number_format((float)$c['precio_unitario'], 2) ?></td>
+                                <td class="text-center"><?= (int)$c['cantidad'] ?></td>
+                                <td class="text-end fw-bold">Bs. <?= number_format((float)$c['subtotal'], 2) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-end">TOTAL DÍA:</td>
+                            <td class="text-center"><?= $artsDia ?></td>
+                            <td class="text-end text-primary fw-bold">Bs. <?= number_format($totalDia, 2) ?></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            <?php endforeach; ?>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #e2e8f0; border-radius: 4px; text-align: right; border: 1px solid #cbd5e1;">
+                <strong style="color: #475569;">TOTAL GENERAL DEL PERIODO:</strong> &nbsp;&nbsp;&nbsp; 
+                <span style="font-size: 14px; font-weight: bold; color: #123B78;">Bs. <?= number_format($sumTotalGeneral, 2) ?> (<?= $sumArtsGeneral ?> artículos)</span>
+            </div>
+        <?php endif; ?>
 
     <?php elseif ($tipo === 'inventario'): ?>
-        <!-- Resumen en Tabla -->
-        <table class="table-custom mb-3">
-            <thead>
-                <tr>
-                    <th class="text-center">Artículos / Stock Total</th>
-                    <th class="text-center">Valor Costo Total</th>
-                    <th class="text-center">Valor Venta Estimado</th>
-                    <th class="text-center">Ganancia Proyectada</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center fw-bold"><?= (int)$resumen['total_articulos'] ?> (<?= (int)$resumen['total_stock'] ?> unid.)</td>
-                    <td class="text-center fw-bold">Bs. <?= number_format((float)$resumen['valor_costo_total'], 2) ?></td>
-                    <td class="text-center fw-bold">Bs. <?= number_format((float)$resumen['valor_venta_total'], 2) ?></td>
-                    <td class="text-center fw-bold">Bs. <?= number_format((float)$resumen['ganancia_potencial'], 2) ?></td>
-                </tr>
-            </tbody>
-        </table>
-
         <table class="table-custom">
             <thead>
                 <tr>
@@ -349,31 +346,32 @@
             </tbody>
         </table>
 
-        <!-- Resumen en Tabla -->
-        <table class="table-custom mb-3">
-            <thead>
-                <tr>
-                    <th class="text-center">Ingresos Totales (Ventas)</th>
-                    <th class="text-center">Egresos Totales (Compras)</th>
-                    <th class="text-center">Utilidad Bruta Estimada</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="text-center fw-bold">
-                        Bs. <?= number_format((float)$resumen['total_ingresos'], 2) ?>
-                        <div class="small fw-normal text-muted"><?= (int)$resumen['total_ventas'] ?> ventas</div>
-                    </td>
-                    <td class="text-center fw-bold">
-                        Bs. <?= number_format((float)$resumen['total_egresos'], 2) ?>
-                        <div class="small fw-normal text-muted"><?= (int)$resumen['total_compras'] ?> compras</div>
-                    </td>
-                    <td class="text-center fw-bold text-<?= $resumen['utilidad_bruta'] >= 0 ? 'success' : 'danger' ?>">
+    <?php elseif ($tipo === 'balance'): ?>
+        <div class="row g-3 my-3">
+            <div class="col-4">
+                <div class="kpi-box" style="border-left-color: #059669;">
+                    <div class="kpi-title">Ingresos Totales (Ventas)</div>
+                    <div class="kpi-val text-success">Bs. <?= number_format((float)$resumen['total_ingresos'], 2) ?></div>
+                    <div class="small text-muted"><?= (int)$resumen['total_ventas'] ?> ventas registradas</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="kpi-box" style="border-left-color: #dc2626;">
+                    <div class="kpi-title">Egresos Totales (Compras)</div>
+                    <div class="kpi-val text-danger">Bs. <?= number_format((float)$resumen['total_egresos'], 2) ?></div>
+                    <div class="small text-muted"><?= (int)$resumen['total_compras'] ?> compras realizadas</div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="kpi-box" style="border-left-color: #1164CF;">
+                    <div class="kpi-title">Utilidad Bruta Estimada</div>
+                    <div class="kpi-val text-<?= $resumen['utilidad_bruta'] >= 0 ? 'primary' : 'danger' ?>">
                         Bs. <?= number_format((float)$resumen['utilidad_bruta'], 2) ?>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                    <div class="small text-muted">Balance neto del periodo</div>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
 
 

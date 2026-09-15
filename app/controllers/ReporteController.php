@@ -395,7 +395,11 @@ class ReporteController extends Controller
 
         switch ($tipo) {
             case 'compras':
-                $datos = $this->reporteModel->obtenerReporteCompras($filtros);
+                if (empty($filtros['fecha_desde']) && empty($filtros['fecha_hasta'])) {
+                    $filtros['fecha_desde'] = date('Y-m-d');
+                    $filtros['fecha_hasta'] = date('Y-m-d');
+                }
+                $datos = $this->reporteModel->obtenerReporteComprasDetalladoPorDias($filtros);
                 $resumen = $this->reporteModel->obtenerResumenCompras($filtros);
                 break;
 

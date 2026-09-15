@@ -131,6 +131,62 @@ class Reporte
     }
 
     /**
+     * Reporte de Compras Detallado agrupado por Días
+     */
+    public function obtenerReporteComprasDetalladoPorDias(array $filtros = []): array
+    {
+        $sql = "SELECT DATE(c.fecha_compra) as fecha_dia,
+                       c.fecha_compra as fecha_hora,
+                       c.id as compra_id,
+                       p.nombre as proveedor_nombre,
+                       a.nombre as articulo_nombre,
+                       dc.cantidad,
+                       dc.precio_unitario,
+                       dc.subtotal
+                FROM compras c
+                INNER JOIN detalle_compras dc ON c.id = dc.compra_id
+                INNER JOIN articulos a ON dc.articulo_id = a.id
+                LEFT JOIN proveedores p ON c.proveedor_id = p.id
+                WHERE 1=1";
+        $params = [];
+
+        if (!empty($filtros['fecha_desde'])) {
+            $sql .= " AND DATE(c.fecha_compra) >= :fecha_desde";
+            $params[':fecha_desde'] = $filtros['fecha_desde'];
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $sql .= " AND DATE(c.fecha_compra) <= :fecha_hasta";
+            $params[':fecha_hasta'] = $filtros['fecha_hasta'];
+        }
+
+        if (!empty($filtros['proveedor_id'])) {
+            $sql .= " AND c.proveedor_id = :proveedor_id";
+            $params[':proveedor_id'] = $filtros['proveedor_id'];
+        }
+
+        $sql .= " ORDER BY DATE(c.fecha_compra) DESC, c.fecha_compra DESC, dc.id ASC";
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll();
+
+            $agrupado = [];
+            foreach ($rows as $row) {
+                $dia = $row['fecha_dia'];
+                if (!isset($agrupado[$dia])) {
+                    $agrupado[$dia] = [];
+                }
+                $agrupado[$dia][] = $row;
+            }
+            return $agrupado;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    /**
      * Resumen / KPIs de Compras
      */
     public function obtenerResumenCompras(array $filtros = []): array

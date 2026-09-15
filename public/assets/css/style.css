@@ -7,15 +7,62 @@
     --text-gray: #667085;
 }
 
+html, body.app-body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background-color: var(--bg-soft);
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
 body {
     background-color: var(--bg-soft);
     font-family: "Segoe UI", Roboto, Arial, sans-serif;
 }
 
+.app-layout {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+/* Sidebar estático e independiente */
 .app-sidebar {
     background-color: var(--brand-dark);
     width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    left: 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    z-index: 1000;
     transition: all 0.3s;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.app-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.app-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.app-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+.app-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
 }
 
 .app-sidebar .nav-link {
@@ -34,9 +81,43 @@ body {
     background-color: var(--brand-primary);
 }
 
+/* Contenedor principal con scroll independiente para las vistas */
+.app-main-wrapper {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-soft);
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.app-main-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.app-main-wrapper::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.app-main-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.app-main-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
 .app-topbar {
     background-color: #fff;
     box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    z-index: 990;
 }
 
 .btn-add {
@@ -75,6 +156,7 @@ body {
 .card-header {
     border-bottom: 1px solid #EAECF0;
     border-radius: 0.75rem 0.75rem 0 0 !important;
+    background-color: #FFFFFF;
 }
 
 .badge-cat {
@@ -96,10 +178,71 @@ body {
     background-color: #F5FAFF;
 }
 
-.card-header {
-    border-bottom: 1px solid #EAECF0;
-    border-radius: 0.75rem 0.75rem 0 0 !important;
-    background-color: #FFFFFF;
+/* Dashboard Targets y Tarjetas Interactivas */
+.target-card {
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    background: #FFFFFF;
+    transition: all 0.22s ease-in-out;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    color: inherit;
+}
+
+.target-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(17, 100, 207, 0.09);
+    border-color: #B9D5FF;
+    color: inherit;
+}
+
+.target-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+
+.target-link-footer {
+    border-top: 1px solid #F1F5F9;
+    padding: 9px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+    background-color: #F8FAFC;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.target-card:hover .target-link-footer {
+    background-color: #EDF4FF;
+    color: var(--brand-hover);
+}
+
+.quick-action-btn {
+    border-radius: 8px;
+    font-weight: 600;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 footer {

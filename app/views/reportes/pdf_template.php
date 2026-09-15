@@ -64,41 +64,6 @@
             padding: 8px 10px;
         }
 
-        .kpi-box {
-            background: #f1f5f9;
-            border-radius: 6px;
-            padding: 12px;
-            border-left: 4px solid #1164CF;
-            margin-bottom: 15px;
-        }
-
-        .kpi-title {
-            font-size: 11px;
-            color: #64748b;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .kpi-val {
-            font-size: 18px;
-            font-weight: bold;
-            color: #0f172a;
-        }
-
-        .signature-section {
-            margin-top: 50px;
-            display: flex;
-            justify-content: space-around;
-            text-align: center;
-        }
-
-        .signature-line {
-            width: 200px;
-            border-top: 1px solid #94a3b8;
-            padding-top: 5px;
-            font-size: 11px;
-            color: #64748b;
-        }
 
         @media print {
             body {
@@ -178,33 +143,25 @@
     <!-- ============================================== -->
 
     <?php if ($tipo === 'ventas'): ?>
-        <!-- Resumen de Métricas -->
-        <div class="row g-2 mb-3">
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Total Ventas</div>
-                    <div class="kpi-val"><?= (int)($resumen['total_operaciones'] ?? 0) ?></div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Total Recaudado</div>
-                    <div class="kpi-val text-success">Bs. <?= number_format((float)($resumen['total_ingresos'] ?? 0), 2) ?></div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Unidades Vendidas</div>
-                    <div class="kpi-val"><?= (int)($resumen['total_unidades'] ?? 0) ?></div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Ticket Promedio</div>
-                    <div class="kpi-val text-primary">Bs. <?= number_format((float)($resumen['ticket_promedio'] ?? 0), 2) ?></div>
-                </div>
-            </div>
-        </div>
+        <!-- Resumen en Tabla -->
+        <table class="table-custom mb-3">
+            <thead>
+                <tr>
+                    <th class="text-center">Total Ventas</th>
+                    <th class="text-center">Total Recaudado</th>
+                    <th class="text-center">Unidades Vendidas</th>
+                    <th class="text-center">Ticket Promedio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center fw-bold"><?= (int)($resumen['total_operaciones'] ?? 0) ?></td>
+                    <td class="text-center fw-bold">Bs. <?= number_format((float)($resumen['total_ingresos'] ?? 0), 2) ?></td>
+                    <td class="text-center fw-bold"><?= (int)($resumen['total_unidades'] ?? 0) ?></td>
+                    <td class="text-center fw-bold">Bs. <?= number_format((float)($resumen['ticket_promedio'] ?? 0), 2) ?></td>
+                </tr>
+            </tbody>
+        </table>
 
         <!-- Tabla Detallada -->
         <table class="table-custom">
@@ -247,27 +204,23 @@
         </table>
 
     <?php elseif ($tipo === 'compras'): ?>
-        <!-- Resumen de Métricas -->
-        <div class="row g-2 mb-3">
-            <div class="col-4">
-                <div class="kpi-box">
-                    <div class="kpi-title">Compras Realizadas</div>
-                    <div class="kpi-val"><?= (int)($resumen['total_operaciones'] ?? 0) ?></div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="kpi-box">
-                    <div class="kpi-title">Total Invertido</div>
-                    <div class="kpi-val text-primary">Bs. <?= number_format((float)($resumen['total_egresos'] ?? 0), 2) ?></div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="kpi-box">
-                    <div class="kpi-title">Artículos Adquiridos</div>
-                    <div class="kpi-val"><?= (int)($resumen['total_unidades'] ?? 0) ?></div>
-                </div>
-            </div>
-        </div>
+        <!-- Resumen en Tabla -->
+        <table class="table-custom mb-3">
+            <thead>
+                <tr>
+                    <th class="text-center">Compras Realizadas</th>
+                    <th class="text-center">Total Invertido</th>
+                    <th class="text-center">Artículos Adquiridos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center fw-bold"><?= (int)($resumen['total_operaciones'] ?? 0) ?></td>
+                    <td class="text-center fw-bold">Bs. <?= number_format((float)($resumen['total_egresos'] ?? 0), 2) ?></td>
+                    <td class="text-center fw-bold"><?= (int)($resumen['total_unidades'] ?? 0) ?></td>
+                </tr>
+            </tbody>
+        </table>
 
         <table class="table-custom">
             <thead>
@@ -305,33 +258,25 @@
         </table>
 
     <?php elseif ($tipo === 'inventario'): ?>
-        <!-- Resumen de Métricas -->
-        <div class="row g-2 mb-3">
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Artículos / Stock Total</div>
-                    <div class="kpi-val"><?= (int)$resumen['total_articulos'] ?> <small class="fs-6">(<?= (int)$resumen['total_stock'] ?>)</small></div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Valor Costo Total</div>
-                    <div class="kpi-val text-secondary">Bs. <?= number_format((float)$resumen['valor_costo_total'], 2) ?></div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Valor Venta Estimado</div>
-                    <div class="kpi-val text-primary">Bs. <?= number_format((float)$resumen['valor_venta_total'], 2) ?></div>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="kpi-box">
-                    <div class="kpi-title">Ganancia Proyectada</div>
-                    <div class="kpi-val text-success">Bs. <?= number_format((float)$resumen['ganancia_potencial'], 2) ?></div>
-                </div>
-            </div>
-        </div>
+        <!-- Resumen en Tabla -->
+        <table class="table-custom mb-3">
+            <thead>
+                <tr>
+                    <th class="text-center">Artículos / Stock Total</th>
+                    <th class="text-center">Valor Costo Total</th>
+                    <th class="text-center">Valor Venta Estimado</th>
+                    <th class="text-center">Ganancia Proyectada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center fw-bold"><?= (int)$resumen['total_articulos'] ?> (<?= (int)$resumen['total_stock'] ?> unid.)</td>
+                    <td class="text-center fw-bold">Bs. <?= number_format((float)$resumen['valor_costo_total'], 2) ?></td>
+                    <td class="text-center fw-bold">Bs. <?= number_format((float)$resumen['valor_venta_total'], 2) ?></td>
+                    <td class="text-center fw-bold">Bs. <?= number_format((float)$resumen['ganancia_potencial'], 2) ?></td>
+                </tr>
+            </tbody>
+        </table>
 
         <table class="table-custom">
             <thead>
@@ -404,49 +349,34 @@
             </tbody>
         </table>
 
-    <?php elseif ($tipo === 'balance'): ?>
-        <div class="row g-3 my-3">
-            <div class="col-4">
-                <div class="kpi-box" style="border-left-color: #059669;">
-                    <div class="kpi-title">Ingresos Totales (Ventas)</div>
-                    <div class="kpi-val text-success">Bs. <?= number_format((float)$resumen['total_ingresos'], 2) ?></div>
-                    <div class="small text-muted"><?= (int)$resumen['total_ventas'] ?> ventas registradas</div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="kpi-box" style="border-left-color: #dc2626;">
-                    <div class="kpi-title">Egresos Totales (Compras)</div>
-                    <div class="kpi-val text-danger">Bs. <?= number_format((float)$resumen['total_egresos'], 2) ?></div>
-                    <div class="small text-muted"><?= (int)$resumen['total_compras'] ?> compras realizadas</div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="kpi-box" style="border-left-color: #1164CF;">
-                    <div class="kpi-title">Utilidad Bruta Estimada</div>
-                    <div class="kpi-val text-<?= $resumen['utilidad_bruta'] >= 0 ? 'primary' : 'danger' ?>">
+        <!-- Resumen en Tabla -->
+        <table class="table-custom mb-3">
+            <thead>
+                <tr>
+                    <th class="text-center">Ingresos Totales (Ventas)</th>
+                    <th class="text-center">Egresos Totales (Compras)</th>
+                    <th class="text-center">Utilidad Bruta Estimada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center fw-bold">
+                        Bs. <?= number_format((float)$resumen['total_ingresos'], 2) ?>
+                        <div class="small fw-normal text-muted"><?= (int)$resumen['total_ventas'] ?> ventas</div>
+                    </td>
+                    <td class="text-center fw-bold">
+                        Bs. <?= number_format((float)$resumen['total_egresos'], 2) ?>
+                        <div class="small fw-normal text-muted"><?= (int)$resumen['total_compras'] ?> compras</div>
+                    </td>
+                    <td class="text-center fw-bold text-<?= $resumen['utilidad_bruta'] >= 0 ? 'success' : 'danger' ?>">
                         Bs. <?= number_format((float)$resumen['utilidad_bruta'], 2) ?>
-                    </div>
-                    <div class="small text-muted">Balance neto del periodo</div>
-                </div>
-            </div>
-        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     <?php endif; ?>
 
-    <!-- Firmas de Autorización -->
-    <div class="signature-section">
-        <div class="signature-line">
-            Elaborado por<br>
-            <strong><?= htmlspecialchars($_SESSION['user_name'] ?? 'Administrador') ?></strong>
-        </div>
-        <div class="signature-line">
-            Revisado por<br>
-            <strong>Gerencia de Operaciones</strong>
-        </div>
-        <div class="signature-line">
-            Aprobado por<br>
-            <strong>Dirección General</strong>
-        </div>
-    </div>
+
 </div>
 
 <!-- Script para generación directa de PDF vía html2pdf -->

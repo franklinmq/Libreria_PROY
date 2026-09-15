@@ -15,7 +15,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-<div class="d-flex flex-row min-vh-100">
+<body class="app-body">
+<div class="app-layout d-flex flex-row">
     <!-- Sidebar -->
     <aside class="app-sidebar d-flex flex-column flex-shrink-0 p-3 text-white">
         <a href="index.php?action=articulos" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none px-2 gap-2">
@@ -56,7 +57,7 @@ if (session_status() === PHP_SESSION_NONE) {
             </li>
         </ul>
         <hr style="border-color: rgba(255,255,255,0.2);">
-        <div class="dropdown">
+        <div class="dropdown dropup">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-person-circle fs-4 me-2"></i>
                 <strong><?= htmlspecialchars($_SESSION['user_name'] ?? 'Usuario') ?></strong>
@@ -70,7 +71,7 @@ if (session_status() === PHP_SESSION_NONE) {
     </aside>
 
     <!-- Main Content Wrapper -->
-    <div class="d-flex flex-column flex-grow-1" style="min-width: 0; background-color: var(--bg-soft);">
+    <div class="app-main-wrapper d-flex flex-column flex-grow-1">
         <header class="app-topbar py-3 px-4 d-flex justify-content-between align-items-center border-bottom bg-white sticky-top">
             <h5 class="mb-0 text-dark fw-bold" style="color: var(--brand-primary) !important;">
                 <?= ($_GET['action'] ?? '') === 'dashboard' ? 'Dashboard' : 'Panel de Control' ?>

@@ -85,6 +85,28 @@ class VentaController extends Controller
 
                 $total_final += ($cantidad * $precio_vendido);
             }
+
+            // Aplicar descuento global prorrateado
+            $descuento_global = (float)($_POST['descuento_global'] ?? 0);
+            if ($descuento_global > 0 && $total_final > 0) {
+                // Asegurarse de que el descuento no exceda el total
+                if ($descuento_global > $total_final) {
+                    $descuento_global = $total_final;
+                }
+                
+                $ratio = ($total_final - $descuento_global) / $total_final;
+                $nuevo_total_final = 0;
+                
+                // Recalcular precios unitarios y el total final real
+                foreach ($detalles as &$det) {
+                    $precio_ajustado = $det['precio_unitario'] * $ratio;
+                    $det['precio_unitario'] = $precio_ajustado; // Almacenamos el precio real rebajado
+                    $nuevo_total_final += ($det['cantidad'] * $precio_ajustado);
+                }
+                
+                $total_final = $nuevo_total_final;
+                $descuento += $descuento_global; // Sumamos el global al descuento acumulado para reportes
+            }
         }
 
 

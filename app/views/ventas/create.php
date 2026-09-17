@@ -217,12 +217,19 @@
                                 <span>Subtotal Original:</span>
                                 <span id="lblSubtotalGral">Bs. 0.00</span>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3 text-danger small">
-                                <span>Descuentos:</span>
+                            
+                            <!-- Descuento Global -->
+                            <div class="d-flex justify-content-between align-items-center mb-2 text-danger small">
+                                <label for="inputDescuentoGlobal" class="mb-0">Descuento Global (Bs.):</label>
+                                <input type="number" id="inputDescuentoGlobal" name="descuento_global" class="form-control form-control-sm text-end text-danger border-danger shadow-none" style="width: 100px;" value="0" min="0" step="0.01">
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-3 text-danger small fw-bold">
+                                <span>Total Descuentos:</span>
                                 <span id="lblDescuento">- Bs. 0.00</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-end mb-4">
-                                <h5 class="fw-bold mb-0 text-dark">TOTAL</h5>
+                                <h5 class="fw-bold mb-0 text-dark">TOTAL A PAGAR</h5>
                                 <h3 class="fw-bolder mb-0 text-success" id="lblTotal">Bs. 0.00</h3>
                             </div>
 
@@ -396,26 +403,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    const inputDescuentoGlobal = document.getElementById('inputDescuentoGlobal');
+    
+    if (inputDescuentoGlobal) {
+        inputDescuentoGlobal.addEventListener('input', calcularTotal);
+    }
+
     function calcularTotal() {
         let subtotalOriginal = 0;
-        let totalFinal = 0;
-        let descuento = 0;
+        let totalCarts = 0; // sum of (cant * precioVenta) before global discount
+        let descuentoManual = 0; // difference between catalog and manual input
 
         document.querySelectorAll('.cart-item').forEach(item => {
             const cant = parseFloat(item.querySelector('.input-cantidad').value) || 0;
             const precioVenta = parseFloat(item.querySelector('.input-precio').value) || 0;
             const precioOriginal = parseFloat(item.dataset.precioOriginal) || 0;
             
-            totalFinal += cant * precioVenta;
+            totalCarts += cant * precioVenta;
             subtotalOriginal += cant * precioOriginal;
             
             if (precioOriginal > precioVenta) {
-                descuento += (precioOriginal - precioVenta) * cant;
+                descuentoManual += (precioOriginal - precioVenta) * cant;
             }
         });
         
+        let descuentoGlobal = parseFloat(inputDescuentoGlobal.value) || 0;
+        
+        // No permitir que el descuento global sea mayor al total
+        if (descuentoGlobal > totalCarts) {
+            descuentoGlobal = totalCarts;
+            inputDescuentoGlobal.value = descuentoGlobal.toFixed(2);
+        }
+        
+        let descuentoTotal = descuentoManual + descuentoGlobal;
+        let totalFinal = totalCarts - descuentoGlobal;
+        
         lblSubtotalGral.innerText = 'Bs. ' + subtotalOriginal.toFixed(2);
-        lblDescuento.innerText = '- Bs. ' + descuento.toFixed(2);
+        lblDescuento.innerText = '- Bs. ' + descuentoTotal.toFixed(2);
         lblTotal.innerText = 'Bs. ' + totalFinal.toFixed(2);
     }
 });

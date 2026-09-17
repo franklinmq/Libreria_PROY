@@ -45,6 +45,62 @@ class Reporte
     }
 
     /**
+     * Reporte de Ventas Detallado agrupado por Días
+     */
+    public function obtenerReporteVentasDetalladoPorDias(array $filtros = []): array
+    {
+        $sql = "SELECT DATE(v.fecha_venta) as fecha_dia,
+                       v.fecha_venta as fecha_hora,
+                       v.id as venta_id,
+                       v.cliente_nombre,
+                       a.nombre as articulo_nombre,
+                       dv.cantidad,
+                       dv.precio_unitario,
+                       dv.subtotal,
+                       v.descuento
+                FROM ventas v
+                INNER JOIN detalle_ventas dv ON v.id = dv.venta_id
+                INNER JOIN articulos a ON dv.articulo_id = a.id
+                WHERE 1=1";
+        $params = [];
+
+        if (!empty($filtros['fecha_desde'])) {
+            $sql .= " AND DATE(v.fecha_venta) >= :fecha_desde";
+            $params[':fecha_desde'] = $filtros['fecha_desde'];
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $sql .= " AND DATE(v.fecha_venta) <= :fecha_hasta";
+            $params[':fecha_hasta'] = $filtros['fecha_hasta'];
+        }
+
+        if (!empty($filtros['cliente'])) {
+            $sql .= " AND v.cliente_nombre LIKE :cliente";
+            $params[':cliente'] = "%" . $filtros['cliente'] . "%";
+        }
+
+        $sql .= " ORDER BY DATE(v.fecha_venta) DESC, v.fecha_venta DESC, dv.id ASC";
+
+        try {
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+            $rows = $stmt->fetchAll();
+
+            $agrupado = [];
+            foreach ($rows as $row) {
+                $dia = $row['fecha_dia'];
+                if (!isset($agrupado[$dia])) {
+                    $agrupado[$dia] = [];
+                }
+                $agrupado[$dia][] = $row;
+            }
+            return $agrupado;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    /**
      * Resumen / KPIs de Ventas
      */
     public function obtenerResumenVentas(array $filtros = []): array

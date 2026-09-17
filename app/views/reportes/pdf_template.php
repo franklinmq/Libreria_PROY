@@ -176,45 +176,91 @@
     <!-- ============================================== -->
 
     <?php if ($tipo === 'ventas'): ?>
-        <!-- Tabla Detallada -->
-        <table class="table-custom">
-            <thead>
-                <tr>
-                    <th style="width: 80px;" class="text-center">N° Venta</th>
-                    <th style="width: 130px;">Fecha y Hora</th>
-                    <th>Cliente</th>
-                    <th style="width: 100px;" class="text-center">Artículos</th>
-                    <th style="width: 120px;" class="text-end">Descuento</th>
-                    <th style="width: 120px;" class="text-end">Total (Bs.)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $sumTotal = 0; $sumDescuento = 0; $sumArts = 0;
-                foreach ($datos as $v): 
-                    $sumTotal += (float)$v['total'];
-                    $sumDescuento += (float)$v['descuento'];
-                    $sumArts += (int)$v['total_articulos'];
-                ?>
-                    <tr>
-                        <td class="text-center fw-bold">#<?= str_pad($v['id'], 5, '0', STR_PAD_LEFT) ?></td>
-                        <td><?= date('d/m/Y H:i', strtotime($v['fecha_venta'])) ?></td>
-                        <td><?= htmlspecialchars($v['cliente_nombre'] ?? 'Consumidor Final') ?></td>
-                        <td class="text-center"><?= (int)$v['total_articulos'] ?></td>
-                        <td class="text-end text-danger"><?= (float)$v['descuento'] > 0 ? 'Bs. ' . number_format((float)$v['descuento'], 2) : '—' ?></td>
-                        <td class="text-end fw-bold">Bs. <?= number_format((float)$v['total'], 2) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3" class="text-end">TOTALES GENERALES:</td>
-                    <td class="text-center"><?= $sumArts ?></td>
-                    <td class="text-end text-danger">Bs. <?= number_format($sumDescuento, 2) ?></td>
-                    <td class="text-end text-success fw-bold">Bs. <?= number_format($sumTotal, 2) ?></td>
-                </tr>
-            </tfoot>
-        </table>
+        <?php 
+        $sumTotalGeneral = 0; $sumArtsGeneral = 0; $sumDescuentoGeneral = 0;
+        if (empty($datos)): ?>
+            <table class="table-custom">
+                <tbody><tr><td class="text-center py-4">No hay ventas en el periodo seleccionado.</td></tr></tbody>
+            </table>
+        <?php else: ?>
+            <?php foreach ($datos as $dia => $items): ?>
+                <div class="text-center mt-4 mb-3">
+                    <span style="font-size:15px; color:#333;">Fecha: <?= date('d/m/Y', strtotime($dia)) ?></span>
+                </div>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;" class="text-center">hora</th>
+                            <th>Cliente</th>
+                            <th>Articulo</th>
+                            <th style="width: 100px;" class="text-end">P/Unit</th>
+                            <th style="width: 80px;" class="text-center">Cantidad</th>
+                            <th style="width: 100px;" class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $totalDia = 0; $artsDia = 0;
+                        
+                        // Primer paso: Calcular subtotales brutos por venta para distribuir el descuento
+                        $totalesPorVenta = [];
+                        foreach ($items as $v) {
+                            $vid = $v['venta_id'];
+                            if (!isset($totalesPorVenta[$vid])) {
+                                $totalesPorVenta[$vid] = ['subtotal_bruto' => 0, 'descuento' => (float)$v['descuento']];
+                            }
+                            $totalesPorVenta[$vid]['subtotal_bruto'] += (float)$v['subtotal'];
+                        }
+
+                        // Segundo paso: Mostrar ítems con precios ajustados
+                        foreach ($items as $v): 
+                            $vid = $v['venta_id'];
+                            $bruto = $totalesPorVenta[$vid]['subtotal_bruto'];
+                            $descuento = $totalesPorVenta[$vid]['descuento'];
+                            
+                            // Si la venta tiene un descuento, calculamos qué porcentaje del total representa
+                            // para rebajar ese mismo porcentaje al precio de cada producto
+                            $ratio = 1;
+                            if ($bruto > 0 && $descuento > 0) {
+                                $ratio = ($bruto - $descuento) / $bruto;
+                            }
+                            
+                            $adjusted_subtotal = (float)$v['subtotal'] * $ratio;
+                            $adjusted_p_unit = $adjusted_subtotal / (int)$v['cantidad'];
+                            
+                            $totalDia += $adjusted_subtotal;
+                            $artsDia += (int)$v['cantidad'];
+                            $sumTotalGeneral += $adjusted_subtotal;
+                            $sumArtsGeneral += (int)$v['cantidad'];
+                        ?>
+                            <tr>
+                                <td class="text-center"><?= date('H:i', strtotime($v['fecha_hora'])) ?></td>
+                                <td><?= htmlspecialchars($v['cliente_nombre'] ?? 'Consumidor Final') ?></td>
+                                <td><?= htmlspecialchars($v['articulo_nombre']) ?></td>
+                                <td class="text-end">Bs. <?= number_format($adjusted_p_unit, 2) ?></td>
+                                <td class="text-center"><?= (int)$v['cantidad'] ?></td>
+                                <td class="text-end fw-bold">Bs. <?= number_format($adjusted_subtotal, 2) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-end">TOTAL DÍA:</td>
+                            <td class="text-center"><?= $artsDia ?></td>
+                            <td class="text-end text-primary fw-bold">Bs. <?= number_format($totalDia, 2) ?></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            <?php endforeach; ?>
+            
+            <div style="margin-top: 20px; padding: 10px; background: #e2e8f0; border-radius: 4px; text-align: right; border: 1px solid #cbd5e1;">
+                <strong style="color: #475569;">TOTAL GENERAL DEL PERIODO:</strong> &nbsp;&nbsp;&nbsp; 
+                <?php if ($sumDescuentoGeneral > 0): ?>
+                <span style="font-size: 13px; color: #dc2626; margin-right: 15px;">(Descuentos: Bs. <?= number_format($sumDescuentoGeneral, 2) ?>)</span>
+                <?php endif; ?>
+                <span style="font-size: 14px; font-weight: bold; color: #123B78;">Bs. <?= number_format($sumTotalGeneral, 2) ?> (<?= $sumArtsGeneral ?> artículos)</span>
+            </div>
+        <?php endif; ?>
 
     <?php elseif ($tipo === 'compras'): ?>
         <?php 

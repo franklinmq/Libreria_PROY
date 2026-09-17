@@ -424,7 +424,11 @@ class ReporteController extends Controller
             case 'ventas':
             default:
                 $tipo = 'ventas';
-                $datos = $this->reporteModel->obtenerReporteVentas($filtros);
+                if (empty($filtros['fecha_desde']) && empty($filtros['fecha_hasta'])) {
+                    $filtros['fecha_desde'] = date('Y-m-d');
+                    $filtros['fecha_hasta'] = date('Y-m-d');
+                }
+                $datos = $this->reporteModel->obtenerReporteVentasDetalladoPorDias($filtros);
                 $resumen = $this->reporteModel->obtenerResumenVentas($filtros);
                 break;
         }

@@ -1,3 +1,185 @@
+<style>
+/* New Dashboard CSS */
+.dash-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.dash-section-wrapper {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+/* Row 1: Colored cards */
+.kpi-color-card {
+    border-radius: 16px;
+    padding: 20px;
+    color: #fff !important;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: transform 0.2s;
+}
+.kpi-color-card:hover {
+    transform: translateY(-5px);
+    color: #fff;
+}
+.kpi-color-card::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 140px;
+    height: 140px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+}
+.kpi-color-card .kpi-icon {
+    width: 38px;
+    height: 38px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.kpi-color-card .kpi-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+.kpi-color-card .kpi-value {
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+.kpi-color-card .kpi-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,0.25);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: auto;
+    align-self: flex-start;
+}
+/* Gradients mapped to system and semantic functionality */
+.bg-blue { background: linear-gradient(135deg, #1164CF, #0F5CC7); } /* Ventas / Ingresos (Brand Primary) */
+.bg-green { background: linear-gradient(135deg, #1C4689, #123B78); } /* Compras (Brand Dark) */
+.bg-orange { background: linear-gradient(135deg, #0891b2, #0e7490); } /* Catálogo (Teal) */
+.bg-purple { background: linear-gradient(135deg, #64748b, #475569); } /* Categorías (Gray-Blue) */
+.bg-red { background: linear-gradient(135deg, #ef4444, #dc2626); } /* Stock Crítico (Red Alert) */
+
+/* Row 2/3: White cards with blobs */
+.kpi-white-card {
+    background: #fff;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+.kpi-white-card .blob-tr {
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    opacity: 0.5;
+}
+.blob-green { background: #dcfce7; } /* Ingresos (Success) */
+.blob-amber { background: #fef3c7; } /* Gastos (Warning/Amber) */
+.blob-blue { background: #e0f2fe; } /* Balance (Brand) */
+
+.kpi-white-card .kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.icon-green { background: #dcfce7; color: #16a34a; }
+.icon-amber { background: #fef3c7; color: #d97706; }
+.icon-blue { background: #e0f2fe; color: #0284c7; }
+
+.kpi-white-card .kpi-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+.kpi-white-card .kpi-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 16px;
+    line-height: 1.1;
+}
+.kpi-white-card .kpi-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.badge-green { background: #dcfce7; color: #16a34a; }
+.badge-amber { background: #fef3c7; color: #d97706; }
+.badge-blue { background: #e0f2fe; color: #0284c7; }
+
+/* Donut chart cards */
+.donut-card {
+    background: #fff;
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
+    padding: 24px;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+}
+.donut-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.chart-container {
+    position: relative;
+    height: 250px;
+    width: 100%;
+}
+</style>
+
 <!-- Header del Dashboard -->
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
     <div>
@@ -13,9 +195,6 @@
         <a href="index.php?action=compra-nueva" class="btn btn-primary quick-action-btn">
             <i class="bi bi-truck"></i> Nueva Compra
         </a>
-        <a href="index.php?action=articulo-nuevo" class="btn btn-outline-primary quick-action-btn bg-white">
-            <i class="bi bi-plus-circle"></i> Nuevo Artículo
-        </a>
         <a href="index.php?action=reportes" class="btn btn-outline-secondary quick-action-btn bg-white">
             <i class="bi bi-bar-chart"></i> Reportes
         </a>
@@ -23,573 +202,299 @@
 </div>
 
 <!-- ============================================== -->
-<!-- TARGETS / TARJETAS KPI (ACCESOS DIRECTOS)      -->
+<!-- 1. MÉTRICAS PRINCIPALES (TARJETAS DE COLORES)  -->
 <!-- ============================================== -->
-<div class="row g-3 mb-4">
-    <!-- Target 1: Ventas Realizadas (Ingresos) -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=ventas" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon bg-success-subtle text-success">
-                    <i class="bi bi-cash-coin"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Ventas Realizadas</div>
-                    <div class="fs-4 fw-bold text-dark">Bs. <?= number_format((float)$resVentas['total_ingresos'], 2) ?></div>
-                    <div class="small text-muted text-truncate">
-                        <span class="badge bg-success-subtle text-success"><?= (int)$resVentas['total_ventas'] ?> ventas</span>
-                        <?php if ((float)$ventasHoy['total_ingresos_hoy'] > 0): ?>
-                            <span class="ms-1 text-success fw-semibold">Hoy: Bs. <?= number_format((float)$ventasHoy['total_ingresos_hoy'], 2) ?></span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Ir al módulo de Ventas</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 2: Compras a Proveedores (Egresos) -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=compras" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon bg-primary-subtle text-primary">
-                    <i class="bi bi-cart-check"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Compras / Inversión</div>
-                    <div class="fs-4 fw-bold text-dark">Bs. <?= number_format((float)$resCompras['total_egresos'], 2) ?></div>
-                    <div class="small text-muted text-truncate">
-                        <span class="badge bg-primary-subtle text-primary"><?= (int)$resCompras['total_compras'] ?> órdenes</span>
-                        <span class="ms-1">Mercadería ingresada</span>
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Ir al módulo de Compras</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 3: Total Artículos en Catálogo -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=articulos" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon bg-info-subtle text-info">
-                    <i class="bi bi-box-seam"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Artículos Registrados</div>
-                    <div class="fs-4 fw-bold text-dark"><?= (int)$totalArticulos ?> <small class="fs-6 fw-normal text-muted">items</small></div>
-                    <div class="small text-muted text-truncate">
-                        <span class="fw-semibold text-dark"><?= (int)$inv['total_stock_unidades'] ?></span> unidades en stock físico
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Ver Catálogo de Artículos</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 4: Alerta de Stock Bajo / Crítico -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=articulos" class="target-card <?= $totalStockBajo > 0 ? 'border-warning' : '' ?>">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon <?= $totalStockBajo > 0 ? 'bg-warning-subtle text-warning' : 'bg-light text-secondary' ?>">
-                    <i class="bi bi-exclamation-triangle"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Alerta de Stock Crítico</div>
-                    <div class="fs-4 fw-bold <?= $totalStockBajo > 0 ? 'text-warning-emphasis' : 'text-dark' ?>">
-                        <?= (int)$totalStockBajo ?> <small class="fs-6 fw-normal text-muted">artículos</small>
-                    </div>
-                    <div class="small text-truncate">
-                        <?php if ($totalStockBajo > 0): ?>
-                            <span class="badge bg-warning-subtle text-warning-emphasis fw-semibold">Requieren reposición (&le; 10)</span>
-                        <?php else: ?>
-                            <span class="text-success small"><i class="bi bi-check-circle me-1"></i>Stock en nivel seguro</span>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Revisar Artículos con Bajo Stock</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 5: Valor del Inventario (Capital) -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=reportes" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon" style="background-color: #F3E8FF; color: #7E22CE;">
-                    <i class="bi bi-archive"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Valor del Inventario (Costo)</div>
-                    <div class="fs-4 fw-bold text-dark">Bs. <?= number_format((float)$inv['valor_costo'], 2) ?></div>
-                    <div class="small text-muted text-truncate">
-                        Venta est.: <span class="fw-semibold text-primary">Bs. <?= number_format((float)$inv['valor_venta'], 2) ?></span>
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Ver Reporte de Inventario</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 6: Balance / Utilidad Bruta -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=reportes" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon" style="background-color: #E0F2FE; color: #0284C7;">
-                    <i class="bi bi-graph-up-arrow"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Utilidad / Balance Bruto</div>
-                    <div class="fs-4 fw-bold <?= $utilidadBruta >= 0 ? 'text-success' : 'text-danger' ?>">
-                        Bs. <?= number_format((float)$utilidadBruta, 2) ?>
-                    </div>
-                    <div class="small text-muted text-truncate">
-                        Margen (Ingresos - Egresos)
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Ver Balance Financiero</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 7: Categorías y Marcas -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=categorias" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon" style="background-color: #CCFBF1; color: #0F766E;">
-                    <i class="bi bi-tags"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Categorías y Marcas</div>
-                    <div class="fs-4 fw-bold text-dark"><?= (int)$totalCategorias ?> <small class="fs-6 fw-normal text-muted">categorías</small></div>
-                    <div class="small text-muted text-truncate">
-                        <span class="badge bg-secondary-subtle text-secondary"><?= (int)$totalMarcas ?> marcas activas</span>
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Administrar Categorías</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
-    </div>
-
-    <!-- Target 8: Proveedores Activos -->
-    <div class="col-sm-6 col-xl-3">
-        <a href="index.php?action=compras" class="target-card">
-            <div class="card-body p-3 d-flex align-items-center gap-3">
-                <div class="target-icon" style="background-color: #F1F5F9; color: #475569;">
-                    <i class="bi bi-building"></i>
-                </div>
-                <div class="overflow-hidden">
-                    <div class="text-muted small text-truncate">Proveedores Registrados</div>
-                    <div class="fs-4 fw-bold text-dark"><?= (int)$totalProveedores ?> <small class="fs-6 fw-normal text-muted">proveedores</small></div>
-                    <div class="small text-muted text-truncate">
-                        Red activa de abastecimiento
-                    </div>
-                </div>
-            </div>
-            <div class="target-link-footer">
-                <span>Gestionar Compras / Proveedores</span>
-                <i class="bi bi-arrow-right"></i>
-            </div>
-        </a>
+<div class="dash-section-wrapper">
+    <div class="dash-section-title"><i class="bi bi-box-fill"></i> MÉTRICAS PRINCIPALES</div>
+    <div class="row g-3 row-cols-1 row-cols-md-2 row-cols-xl-4">
+        <!-- BLUE -->
+        <div class="col">
+            <a href="index.php?action=ventas" class="kpi-color-card bg-blue">
+                <div class="kpi-icon"><i class="bi bi-cart-check"></i></div>
+                <div class="kpi-title">TOTAL VENTAS</div>
+                <div class="kpi-value"><?= (int)$resVentas['total_ventas'] ?></div>
+                <div class="kpi-badge"><i class="bi bi-cash"></i> Bs. <?= number_format((float)$resVentas['total_ingresos'], 0) ?></div>
+            </a>
+        </div>
+        <!-- GREEN -->
+        <div class="col">
+            <a href="index.php?action=compras" class="kpi-color-card bg-green">
+                <div class="kpi-icon"><i class="bi bi-bag-check"></i></div>
+                <div class="kpi-title">COMPRAS REALIZADAS</div>
+                <div class="kpi-value"><?= (int)$resCompras['total_compras'] ?></div>
+                <div class="kpi-badge"><i class="bi bi-truck"></i> Bs. <?= number_format((float)$resCompras['total_egresos'], 0) ?></div>
+            </a>
+        </div>
+        <!-- ORANGE -->
+        <div class="col">
+            <a href="index.php?action=articulos" class="kpi-color-card bg-orange">
+                <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+                <div class="kpi-title">CATÁLOGO ARTÍCULOS</div>
+                <div class="kpi-value"><?= (int)$totalArticulos ?></div>
+                <div class="kpi-badge"><i class="bi bi-boxes"></i> <?= (int)$inv['total_stock_unidades'] ?> en stock</div>
+            </a>
+        </div>
+        <!-- RED -->
+        <div class="col">
+            <a href="index.php?action=articulos" class="kpi-color-card bg-red">
+                <div class="kpi-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                <div class="kpi-title">STOCK CRÍTICO</div>
+                <div class="kpi-value"><?= (int)$totalStockBajo ?></div>
+                <div class="kpi-badge"><i class="bi bi-bell"></i> Requieren reposición</div>
+            </a>
+        </div>
     </div>
 </div>
 
 <!-- ============================================== -->
-<!-- SECCIÓN DE GRÁFICOS DINÁMICOS CON DATOS REALES -->
+<!-- 2. RESUMEN FINANCIERO Y VALORACIÓN             -->
 <!-- ============================================== -->
-<div class="row g-4 mb-4">
-    <!-- Gráfico Comparativo: Ventas vs Compras -->
-    <div class="col-lg-8">
-        <div class="card shadow-sm h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                <h6 class="mb-0 fw-bold text-dark">
-                    <i class="bi bi-bar-chart-line text-primary me-2"></i>Movimiento Financiero (Últimos 7 Días)
-                </h6>
-                <div class="d-flex gap-2">
-                    <span class="badge bg-success-subtle text-success px-2 py-1"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Ventas</span>
-                    <span class="badge bg-primary-subtle text-primary px-2 py-1"><i class="bi bi-circle-fill me-1" style="font-size: 0.5rem;"></i>Compras</span>
-                </div>
-            </div>
-            <div class="card-body">
-                <canvas id="ventasComprasChart" height="110"></canvas>
+<div class="dash-section-wrapper">
+    <div class="dash-section-title"><i class="bi bi-wallet2"></i> RESUMEN FINANCIERO Y VALORACIÓN</div>
+    <div class="row g-4">
+        <!-- INGRESOS TOTALES -->
+        <div class="col-md-4">
+            <div class="kpi-white-card">
+                <div class="blob-tr blob-green"></div>
+                <div class="kpi-icon icon-green"><i class="bi bi-cash-stack"></i></div>
+                <div class="kpi-title">INGRESOS TOTALES</div>
+                <div class="kpi-value">Bs <?= number_format((float)$resVentas['total_ingresos'], 2) ?></div>
+                <div class="kpi-badge badge-green"><i class="bi bi-graph-up-arrow"></i> Gestión actual</div>
             </div>
         </div>
-    </div>
-
-    <!-- Gráfico de Categorías -->
-    <div class="col-lg-4">
-        <div class="card shadow-sm h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                <h6 class="mb-0 fw-bold text-dark">
-                    <i class="bi bi-pie-chart text-info me-2"></i>Distribución de Catálogo
-                </h6>
-                <a href="index.php?action=categorias" class="small text-decoration-none">Ver todas &rarr;</a>
+        <!-- GASTOS EN COMPRAS -->
+        <div class="col-md-4">
+            <div class="kpi-white-card">
+                <div class="blob-tr blob-amber"></div>
+                <div class="kpi-icon icon-amber"><i class="bi bi-receipt"></i></div>
+                <div class="kpi-title">GASTOS EN COMPRAS</div>
+                <div class="kpi-value">Bs <?= number_format((float)$resCompras['total_egresos'], 2) ?></div>
+                <div class="kpi-badge badge-amber"><i class="bi bi-arrow-down-right"></i> Inversión</div>
             </div>
-            <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                <?php if (!empty($categoriasDistribucion)): ?>
-                    <div style="width: 100%; max-height: 220px; position: relative;">
-                        <canvas id="categoriasChart"></canvas>
-                    </div>
-                <?php else: ?>
-                    <div class="text-center py-4 text-muted">
-                        <i class="bi bi-tags fs-1 text-secondary opacity-50 d-block mb-2"></i>
-                        <p class="small mb-0">Sin artículos asignados a categorías aún.</p>
-                    </div>
-                <?php endif; ?>
+        </div>
+        <!-- BALANCE (UTILIDAD) -->
+        <div class="col-md-4">
+            <div class="kpi-white-card">
+                <div class="blob-tr blob-blue"></div>
+                <div class="kpi-icon icon-blue"><i class="bi bi-scales"></i></div>
+                <div class="kpi-title">BALANCE (UTILIDAD)</div>
+                <div class="kpi-value">Bs <?= number_format((float)$utilidadBruta, 2) ?></div>
+                <div class="kpi-badge badge-blue"><i class="bi bi-hand-thumbs-up"></i> <?= $utilidadBruta >= 0 ? 'Superávit' : 'Déficit' ?></div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- ============================================== -->
-<!-- MONITOREO EN VIVO: ÚLTIMAS VENTAS Y STOCK BAJO -->
+<!-- 3. ANALÍTICA (GRÁFICOS DONUT)                  -->
 <!-- ============================================== -->
-<div class="row g-4 mb-4">
-    <!-- Últimas Ventas Realizadas -->
-    <div class="col-lg-6">
-        <div class="card shadow-sm h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                <h6 class="mb-0 fw-bold text-dark">
-                    <i class="bi bi-receipt text-success me-2"></i>Últimas Ventas Realizadas
-                </h6>
-                <a href="index.php?action=ventas" class="btn btn-sm btn-outline-primary py-1 px-2" style="font-size: 0.78rem;">
-                    Ver Todas
-                </a>
+<div class="dash-section-wrapper">
+    <div class="dash-section-title"><i class="bi bi-pie-chart-fill"></i> ANALÍTICA</div>
+    <div class="row g-4">
+        <!-- Categorias -->
+        <div class="col-md-4">
+            <div class="donut-card">
+                <div class="donut-title">Distribución por Categorías</div>
+                <div class="chart-container">
+                    <?php if (!empty($categoriasDistribucion)): ?>
+                        <canvas id="chartCategorias"></canvas>
+                    <?php else: ?>
+                        <div class="d-flex align-items-center justify-content-center h-100 text-muted small">Sin datos</div>
+                    <?php endif; ?>
+                </div>
             </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3" style="width: 70px;">Folio</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th class="text-end">Total</th>
-                                <th class="text-center pe-3" style="width: 70px;">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($ultimasVentas)): ?>
-                                <?php foreach ($ultimasVentas as $v): ?>
-                                    <tr>
-                                        <td class="ps-3 fw-bold text-secondary">#<?= str_pad($v['id'], 5, '0', STR_PAD_LEFT) ?></td>
-                                        <td>
-                                            <span class="fw-semibold"><?= htmlspecialchars($v['cliente_nombre'] ?? 'Consumidor Final') ?></span>
-                                            <div class="text-muted" style="font-size: 0.75rem;"><?= (int)$v['total_unidades'] ?> productos</div>
-                                        </td>
-                                        <td class="text-muted" style="font-size: 0.8rem;">
-                                            <?= date('d/m/Y H:i', strtotime($v['fecha_venta'])) ?>
-                                        </td>
-                                        <td class="text-end fw-bold text-success">
-                                            Bs. <?= number_format((float)$v['total'], 2) ?>
-                                        </td>
-                                        <td class="text-center pe-3">
-                                            <a href="index.php?action=venta-ver&id=<?= $v['id'] ?>" class="btn btn-sm btn-outline-secondary py-0 px-2" title="Ver detalle del ticket">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
+        </div>
+        <!-- Gastos vs Ingresos -->
+        <div class="col-md-4">
+            <div class="donut-card">
+                <div class="donut-title">Ingresos vs Egresos</div>
+                <div class="chart-container">
+                    <canvas id="chartBalance"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- Top Vendidos -->
+        <div class="col-md-4">
+            <div class="donut-card">
+                <div class="donut-title">Top 5 Productos Más Vendidos</div>
+                <div class="chart-container">
+                    <?php if (!empty($topVendidos)): ?>
+                        <canvas id="chartTop"></canvas>
+                    <?php else: ?>
+                        <div class="d-flex align-items-center justify-content-center h-100 text-muted small">Sin datos</div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================== -->
+<!-- 4. MONITOREO EN VIVO: ÚLTIMAS VENTAS Y STOCK BAJO -->
+<!-- ============================================== -->
+<div class="dash-section-wrapper">
+    <div class="dash-section-title"><i class="bi bi-activity"></i> MONITOREO EN VIVO</div>
+    <div class="row g-4">
+        <!-- Últimas Ventas Realizadas -->
+        <div class="col-lg-6">
+            <div class="card shadow-none border h-100" style="border-radius: 12px;">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3 border-bottom-0">
+                    <h6 class="mb-0 fw-bold text-dark">Últimas Ventas Realizadas</h6>
+                    <a href="index.php?action=ventas" class="btn btn-sm btn-outline-primary py-1 px-2" style="font-size: 0.78rem;">Ver Todas</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
+                            <thead class="table-light">
                                 <tr>
-                                    <td colspan="5" class="text-center py-4 text-muted">
-                                        <i class="bi bi-inbox fs-2 opacity-50 d-block mb-1"></i>
-                                        Aún no hay ventas registradas en el sistema.
-                                        <div class="mt-2">
-                                            <a href="index.php?action=venta-nueva" class="btn btn-sm btn-success">
-                                                <i class="bi bi-cart-plus me-1"></i> Registrar Primera Venta
-                                            </a>
-                                        </div>
-                                    </td>
+                                    <th class="ps-3" style="width: 70px;">Folio</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th class="text-end pe-3">Total</th>
                                 </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($ultimasVentas)): ?>
+                                    <?php foreach ($ultimasVentas as $v): ?>
+                                        <tr>
+                                            <td class="ps-3 fw-bold text-secondary">#<?= str_pad($v['id'], 5, '0', STR_PAD_LEFT) ?></td>
+                                            <td>
+                                                <span class="fw-semibold"><?= htmlspecialchars($v['cliente_nombre'] ?? 'Consumidor Final') ?></span>
+                                                <div class="text-muted" style="font-size: 0.75rem;"><?= (int)$v['total_unidades'] ?> productos</div>
+                                            </td>
+                                            <td class="text-muted" style="font-size: 0.8rem;">
+                                                <?= date('d/m/Y H:i', strtotime($v['fecha_venta'])) ?>
+                                            </td>
+                                            <td class="text-end fw-bold text-success pe-3">
+                                                Bs. <?= number_format((float)$v['total'], 2) ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted">Aún no hay ventas registradas.</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="card-footer bg-white border-top text-center py-2">
-                <a href="index.php?action=ventas" class="text-decoration-none small fw-semibold">
-                    Ir al listado completo de ventas &rarr;
-                </a>
-            </div>
         </div>
-    </div>
 
-    <!-- Artículos con Stock Bajo o Crítico -->
-    <div class="col-lg-6">
-        <div class="card shadow-sm h-100">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-                <h6 class="mb-0 fw-bold text-dark">
-                    <i class="bi bi-exclamation-octagon text-danger me-2"></i>Artículos con Stock Crítico (&le; 10)
-                </h6>
-                <a href="index.php?action=articulos" class="btn btn-sm btn-outline-warning py-1 px-2" style="font-size: 0.78rem;">
-                    Ver Inventario
-                </a>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
-                        <thead class="table-light">
-                            <tr>
-                                <th class="ps-3" style="width: 50px;">Foto</th>
-                                <th>Artículo</th>
-                                <th>Categoría</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center pe-3" style="width: 120px;">Acción</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($articulosStockBajo)): ?>
-                                <?php foreach ($articulosStockBajo as $art): ?>
-                                    <tr>
-                                        <td class="ps-3">
-                                            <?php if (!empty($art['imagen'])): ?>
-                                                <img src="uploads/<?= htmlspecialchars($art['imagen']) ?>" alt="Foto" style="width: 34px; height: 34px; object-fit: contain;" class="rounded border p-1 bg-white">
-                                            <?php else: ?>
-                                                <div class="bg-light border rounded d-flex align-items-center justify-content-center text-secondary" style="width: 34px; height: 34px;">
-                                                    <i class="bi bi-image" style="font-size: 0.85rem;"></i>
+        <!-- Artículos con Stock Bajo o Crítico -->
+        <div class="col-lg-6">
+            <div class="card shadow-none border h-100" style="border-radius: 12px;">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3 border-bottom-0">
+                    <h6 class="mb-0 fw-bold text-dark text-danger">Artículos con Stock Crítico (&le; 10)</h6>
+                    <a href="index.php?action=articulos" class="btn btn-sm btn-outline-warning py-1 px-2" style="font-size: 0.78rem;">Inventario</a>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Artículo</th>
+                                    <th>Categoría</th>
+                                    <th class="text-center pe-3">Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($articulosStockBajo)): ?>
+                                    <?php foreach ($articulosStockBajo as $art): ?>
+                                        <tr>
+                                            <td class="ps-3">
+                                                <div class="fw-semibold text-dark text-truncate" style="max-width: 170px;">
+                                                    <?= htmlspecialchars($art['nombre']) ?>
                                                 </div>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <div class="fw-semibold text-dark text-truncate" style="max-width: 170px;">
-                                                <?= htmlspecialchars($art['nombre']) ?>
-                                            </div>
-                                            <div class="text-muted" style="font-size: 0.75rem;">
-                                                <?= htmlspecialchars($art['marca_nombre'] ?? 'Sin marca') ?>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge bg-light text-dark border" style="font-size: 0.72rem;">
-                                                <?= htmlspecialchars($art['categoria_nombre'] ?? 'Sin categoría') ?>
-                                            </span>
-                                        </td>
-                                        <td class="text-center">
-                                            <span class="badge <?= (int)$art['stock'] <= 2 ? 'bg-danger text-white' : 'bg-warning text-dark' ?> fw-bold">
-                                                <?= (int)$art['stock'] ?> unids.
-                                            </span>
-                                        </td>
-                                        <td class="text-center pe-3">
-                                            <div class="btn-group btn-group-sm">
-                                                <a href="index.php?action=compra-nueva" class="btn btn-outline-primary py-0 px-2" title="Comprar stock">
-                                                    <i class="bi bi-cart-plus"></i> Reabastecer
-                                                </a>
-                                                <a href="index.php?action=articulo-editar&id=<?= $art['id'] ?>" class="btn btn-outline-secondary py-0 px-2" title="Editar producto">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-light text-dark border" style="font-size: 0.72rem;">
+                                                    <?= htmlspecialchars($art['categoria_nombre'] ?? 'Sin categoría') ?>
+                                                </span>
+                                            </td>
+                                            <td class="text-center pe-3">
+                                                <span class="badge <?= (int)$art['stock'] <= 2 ? 'bg-danger text-white' : 'bg-warning text-dark' ?> fw-bold">
+                                                    <?= (int)$art['stock'] ?> unids.
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="3" class="text-center py-4 text-muted">¡Excelente! Todos los artículos cuentan con stock óptimo.</td>
                                     </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="5" class="text-center py-4 text-muted">
-                                        <i class="bi bi-check-circle-fill fs-2 text-success opacity-75 d-block mb-1"></i>
-                                        ¡Excelente! Todos los artículos cuentan con stock óptimo.
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="card-footer bg-white border-top text-center py-2">
-                <a href="index.php?action=articulos" class="text-decoration-none small fw-semibold">
-                    Ir al inventario general de artículos &rarr;
-                </a>
             </div>
         </div>
     </div>
 </div>
-
-<!-- ============================================== -->
-<!-- PRODUCTOS MÁS VENDIDOS (SI EXISTEN VENTAS)     -->
-<!-- ============================================== -->
-<?php if (!empty($topVendidos)): ?>
-<div class="card shadow-sm mb-4">
-    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
-        <h6 class="mb-0 fw-bold text-dark">
-            <i class="bi bi-trophy text-warning me-2"></i>Productos Estrella Más Vendidos
-        </h6>
-        <a href="index.php?action=reportes" class="btn btn-sm btn-outline-secondary py-1 px-2" style="font-size: 0.78rem;">
-            Ver Reporte Completo
-        </a>
-    </div>
-    <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0" style="font-size: 0.88rem;">
-            <thead class="table-light">
-                <tr>
-                    <th class="text-center ps-3" style="width: 50px;">#</th>
-                    <th>Artículo</th>
-                    <th>Categoría</th>
-                    <th>Marca</th>
-                    <th class="text-center">Unidades Vendidas</th>
-                    <th class="text-end pe-3">Total Recaudado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $pos = 1; foreach ($topVendidos as $top): ?>
-                    <tr>
-                        <td class="text-center ps-3">
-                            <span class="badge rounded-pill <?= $pos === 1 ? 'bg-warning text-dark' : ($pos === 2 ? 'bg-secondary text-white' : 'bg-light text-dark border') ?>">
-                                <?= $pos++ ?>
-                            </span>
-                        </td>
-                        <td class="fw-bold text-dark"><?= htmlspecialchars($top['nombre']) ?></td>
-                        <td><span class="badge badge-cat"><?= htmlspecialchars($top['categoria_nombre'] ?? '—') ?></span></td>
-                        <td class="text-muted"><?= htmlspecialchars($top['marca_nombre'] ?? '—') ?></td>
-                        <td class="text-center fw-bold text-primary"><?= (int)$top['total_unidades_vendidas'] ?></td>
-                        <td class="text-end pe-3 fw-bold text-success">Bs. <?= number_format((float)$top['total_recaudado'], 2) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-<?php endif; ?>
 
 <!-- Scripts de Gráficos -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Gráfico Ventas vs Compras
-    const ctxVentas = document.getElementById('ventasComprasChart').getContext('2d');
-    const labelsDias = <?= json_encode($labelsDias) ?>;
-    const datosVentas = <?= json_encode($datosVentasDias) ?>;
-    const datosCompras = <?= json_encode($datosComprasDias) ?>;
-
-    new Chart(ctxVentas, {
-        type: 'bar',
-        data: {
-            labels: labelsDias,
-            datasets: [
-                {
-                    label: 'Ventas (Bs.)',
-                    data: datosVentas,
-                    backgroundColor: 'rgba(16, 185, 129, 0.75)',
-                    borderColor: '#10b981',
-                    borderWidth: 1.5,
-                    borderRadius: 5
-                },
-                {
-                    label: 'Compras (Bs.)',
-                    data: datosCompras,
-                    backgroundColor: 'rgba(17, 100, 207, 0.75)',
-                    borderColor: '#1164CF',
-                    borderWidth: 1.5,
-                    borderRadius: 5
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                mode: 'index',
-                intersect: false
-            },
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: {
-                        boxWidth: 12,
-                        font: { size: 11 }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.dataset.label + ': Bs. ' + Number(context.raw).toFixed(2);
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return 'Bs. ' + value;
-                        }
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
+    const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { boxWidth: 10, font: { size: 11 }, padding: 20 }
             }
-        }
-    });
+        },
+        cutout: '70%',
+        borderWidth: 0
+    };
 
-    // 2. Gráfico Categorías (Doughnut)
+    // 1. Gráfico Categorías (Doughnut)
     <?php if (!empty($categoriasDistribucion)): ?>
-    const ctxCat = document.getElementById('categoriasChart').getContext('2d');
-    const catLabels = <?= json_encode(array_column($categoriasDistribucion, 'nombre')) ?>;
-    const catData = <?= json_encode(array_column($categoriasDistribucion, 'total_articulos')) ?>;
-
-    new Chart(ctxCat, {
+    new Chart(document.getElementById('chartCategorias').getContext('2d'), {
         type: 'doughnut',
         data: {
-            labels: catLabels,
+            labels: <?= json_encode(array_column($categoriasDistribucion, 'nombre')) ?>,
             datasets: [{
-                data: catData,
-                backgroundColor: [
-                    '#1164CF',
-                    '#10B981',
-                    '#F59E0B',
-                    '#8B5CF6',
-                    '#EC4899',
-                    '#06B6D4'
-                ],
-                borderWidth: 2,
-                borderColor: '#ffffff'
+                data: <?= json_encode(array_column($categoriasDistribucion, 'total_articulos')) ?>,
+                backgroundColor: ['#1164CF', '#1C4689', '#0891b2', '#0F5CC7', '#64748b', '#0e7490'],
+            }]
+        },
+        options: commonOptions
+    });
+    <?php endif; ?>
+
+    // 2. Gráfico Balance (Ingresos vs Egresos)
+    new Chart(document.getElementById('chartBalance').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Ingresos', 'Egresos'],
+            datasets: [{
+                data: [<?= (float)$resVentas['total_ingresos'] ?>, <?= (float)$resCompras['total_egresos'] ?>],
+                backgroundColor: ['#10b981', '#f59e0b'],
+            }]
+        },
+        options: commonOptions
+    });
+
+    // 3. Gráfico Top Productos
+    <?php if (!empty($topVendidos)): ?>
+    new Chart(document.getElementById('chartTop').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: <?= json_encode(array_column($topVendidos, 'nombre')) ?>,
+            datasets: [{
+                data: <?= json_encode(array_column($topVendidos, 'total_unidades_vendidas')) ?>,
+                backgroundColor: ['#1164CF', '#1C4689', '#0891b2', '#64748b', '#94a3b8'],
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
+            ...commonOptions,
             plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        boxWidth: 10,
-                        font: { size: 10 }
-                    }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return ' ' + context.label + ': ' + context.raw + ' artículos';
-                        }
-                    }
-                }
-            },
-            cutout: '65%'
+                legend: { display: false } // Hide legend for products as names can be long
+            }
         }
     });
     <?php endif; ?>

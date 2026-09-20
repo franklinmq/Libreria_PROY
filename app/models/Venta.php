@@ -14,8 +14,76 @@ class Venta
     public function obtenerTodas(): array
     {
         $sql = "SELECT v.*, 
-                       (SELECT SUM(cantidad) FROM detalle_ventas WHERE venta_id = v.id) AS total_articulos
+                       (SELECT SUM(cantidad) FROM detalle_ventas WHERE venta_id = v.id) AS total_articulos,
+                       (SELECT GROUP_CONCAT(CONCAT(a.nombre, ' (', d.cantidad, ')') SEPARATOR ', ') 
+                        FROM detalle_ventas d 
+                        JOIN articulos a ON d.articulo_id = a.id 
+                        WHERE d.venta_id = v.id) AS productos_nombres
                 FROM ventas v
+                ORDER BY v.fecha_venta DESC";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll();
+    }
+
+    public function obtenerPorFecha(string $fecha): array
+    {
+        $sql = "SELECT v.*, 
+                       (SELECT SUM(cantidad) FROM detalle_ventas WHERE venta_id = v.id) AS total_articulos,
+                       (SELECT GROUP_CONCAT(CONCAT(a.nombre, ' (', d.cantidad, ')') SEPARATOR ', ') 
+                        FROM detalle_ventas d 
+                        JOIN articulos a ON d.articulo_id = a.id 
+                        WHERE d.venta_id = v.id) AS productos_nombres
+                FROM ventas v
+                WHERE DATE(v.fecha_venta) = :fecha
+                ORDER BY v.fecha_venta DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':fecha' => $fecha]);
+        return $stmt->fetchAll();
+    }
+
+    public function obtenerDetalleVentasPorFecha(string $fecha): array
+    {
+        $sql = "SELECT 
+                    v.id AS venta_id,
+                    v.fecha_venta,
+                    v.cliente_nombre,
+                    d.id AS detalle_id,
+                    d.cantidad,
+                    d.precio_unitario,
+                    (d.cantidad * d.precio_unitario) AS subtotal,
+                    a.nombre AS articulo_nombre,
+                    c.nombre AS categoria_nombre,
+                    m.nombre AS marca_nombre
+                FROM detalle_ventas d
+                JOIN ventas v ON d.venta_id = v.id
+                JOIN articulos a ON d.articulo_id = a.id
+                LEFT JOIN categorias c ON a.categoria_id = c.id
+                LEFT JOIN marcas m ON a.marca_id = m.id
+                WHERE DATE(v.fecha_venta) = :fecha
+                ORDER BY v.fecha_venta DESC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([':fecha' => $fecha]);
+        return $stmt->fetchAll();
+    }
+
+    public function obtenerDetalleVentasTodas(): array
+    {
+        $sql = "SELECT 
+                    v.id AS venta_id,
+                    v.fecha_venta,
+                    v.cliente_nombre,
+                    d.id AS detalle_id,
+                    d.cantidad,
+                    d.precio_unitario,
+                    (d.cantidad * d.precio_unitario) AS subtotal,
+                    a.nombre AS articulo_nombre,
+                    c.nombre AS categoria_nombre,
+                    m.nombre AS marca_nombre
+                FROM detalle_ventas d
+                JOIN ventas v ON d.venta_id = v.id
+                JOIN articulos a ON d.articulo_id = a.id
+                LEFT JOIN categorias c ON a.categoria_id = c.id
+                LEFT JOIN marcas m ON a.marca_id = m.id
                 ORDER BY v.fecha_venta DESC";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();

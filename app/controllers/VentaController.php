@@ -17,10 +17,17 @@ class VentaController extends Controller
 
     public function index(): void
     {
-        $ventas = $this->ventaModel->obtenerTodas();
+        $fecha = $_GET['fecha'] ?? date('Y-m-d');
+        
+        if ($fecha === 'all') {
+            $ventas = $this->ventaModel->obtenerDetalleVentasTodas();
+        } else {
+            $ventas = $this->ventaModel->obtenerDetalleVentasPorFecha($fecha);
+        }
 
         $this->render('ventas/index', [
-            'ventas' => $ventas
+            'ventas' => $ventas,
+            'fecha' => $fecha
         ]);
     }
 

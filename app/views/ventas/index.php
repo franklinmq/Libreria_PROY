@@ -46,36 +46,27 @@
                 </tr>
             </thead>
             <tbody>
-                <?php if (empty($ventas)): ?>
-                    <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
-                            <i class="bi bi-inbox fs-2 opacity-50 d-block mb-2"></i>
-                            No se encontraron productos vendidos <?= $fecha === 'all' ? 'en el sistema' : 'para la fecha seleccionada' ?>.
-                        </td>
-                    </tr>
-                <?php else: ?>
-                    <?php foreach ($ventas as $item): ?>
-                            <tr>
-                                <td class="text-muted"><?= htmlspecialchars($item['cliente_nombre'] ?? 'Sin Nombre') ?></td>
-                                <td>
-                                    <span class="text-secondary small text-uppercase"><?= htmlspecialchars($item['categoria_nombre'] ?? 'SIN CATEGORÍA') ?></span> <span class="text-muted mx-1">|</span> 
-                                    <span class="fw-bold text-dark"><?= htmlspecialchars($item['articulo_nombre']) ?></span>
-                                </td>
-                                <td class="text-center"><?= (int) $item['cantidad'] ?></td>
-                                <td class="text-end">Bs. <?= number_format((float) $item['precio_unitario'], 2) ?></td>
-                                <td class="text-end fw-bold">Bs. <?= number_format((float) $item['subtotal'], 2) ?></td>
-                                <td class="text-muted fw-semibold"><?= $fecha === 'all' ? date('d/m H:i', strtotime($item['fecha_venta'])) : date('H:i', strtotime($item['fecha_venta'])) ?></td>
-                                <td class="text-center">
-                                    <a href="index.php?action=venta-ver&id=<?= $item['venta_id'] ?>" class="btn btn-sm py-0 px-2 shadow-sm" style="background-color: var(--brand-primary); color: white; border-color: var(--brand-primary);" title="Editar / Ver Venta">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-sm py-0 px-2 shadow-sm" style="background-color: var(--brand-dark); color: white; border-color: var(--brand-dark);" title="Eliminar Venta" onclick="if(confirm('¿Eliminar esta venta entera?')) window.location.href='index.php?action=venta-eliminar&id=<?= $item['venta_id'] ?>'">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php foreach ($ventas as $item): ?>
+                        <tr>
+                            <td class="text-muted"><?= htmlspecialchars($item['cliente_nombre'] ?? 'Sin Nombre') ?></td>
+                            <td>
+                                <span class="text-secondary small text-uppercase"><?= htmlspecialchars($item['categoria_nombre'] ?? 'SIN CATEGORÍA') ?></span> <span class="text-muted mx-1">|</span> 
+                                <span class="fw-bold text-dark"><?= htmlspecialchars($item['articulo_nombre']) ?></span>
+                            </td>
+                            <td class="text-center"><?= (int) $item['cantidad'] ?></td>
+                            <td class="text-end">Bs. <?= number_format((float) $item['precio_unitario'], 2) ?></td>
+                            <td class="text-end fw-bold">Bs. <?= number_format((float) $item['subtotal'], 2) ?></td>
+                            <td class="text-muted fw-semibold"><?= $fecha === 'all' ? date('d/m H:i', strtotime($item['fecha_venta'])) : date('H:i', strtotime($item['fecha_venta'])) ?></td>
+                            <td class="text-center">
+                                <a href="index.php?action=venta-ver&id=<?= $item['venta_id'] ?>" class="btn btn-sm py-0 px-2 shadow-sm" style="background-color: var(--brand-primary); color: white; border-color: var(--brand-primary);" title="Editar / Ver Venta">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <button type="button" class="btn btn-sm py-0 px-2 shadow-sm" style="background-color: var(--brand-dark); color: white; border-color: var(--brand-dark);" title="Eliminar Venta" onclick="if(confirm('¿Eliminar esta venta entera?')) window.location.href='index.php?action=venta-eliminar&id=<?= $item['venta_id'] ?>'">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
